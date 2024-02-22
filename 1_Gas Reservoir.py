@@ -2,6 +2,33 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from tabulate import tabulate
+import streamlit as st
+
+st.title("IPR Calculation")
+st.markdown("Forcheimer Reservoir Model")
+
+forcheimer= ''' ## Forcheimer Reservoir Model
+The Forcheimer equation expresses the inflow performance in terms of turbulent and non turbulent pressure drop coefficients expressed as:
+
+*   "a"         the turbulent pressure drop (Non-Darcy Coefficient)    
+*   "b"         the laminar pressure drop (Non-Darcy Coefficient)
+
+
+To represent IPR in a Pressure vs Rate plot then,
+
+$\Delta P^2 = Pws ^2- Pwf^2 = a \cdot Q^2 + b \cdot Q $
+
+
+$a \cdot Q^2 + b \cdot Q  - (Pws ^2- Pwf^2 ) = 0$
+
+
+$a \cdot Q^2 + b \cdot Q  - Pws ^2 + Pwf^2 =0 $
+
+
+$Pwf=\sqrt{Pws ^2-a \cdot Q^2 -b \cdot Q }$
+
+'''
+st.markdown(forcheimer)
 
 # Definition of the quadratic curve equation (Inflow Performance Relationship - IPR)
 def curve_IPR(Q, a, b):
