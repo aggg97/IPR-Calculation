@@ -29,8 +29,9 @@ $Pwf=\sqrt{Pws ^2-a \cdot Q^2 -b \cdot Q }$
 st.markdown(forcheimer)
 
 
+st.header("Enter test data: ")
 date = st.date_input("Enter date: ")
 comment = st.text_input("Enter comment: ")
-Pwf = st.number_input(float(input("Enter flowing bottomhole pressure (in bar): ")))
-Q = st.number_input(float(input("Enter rate (in km3/d): ")))
+Pwf = st.number_input(float(("Enter flowing bottomhole pressure (in bar): ")))
+Q = st.number_input(float(("Enter rate (in km3/d): ")))
 
