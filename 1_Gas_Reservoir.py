@@ -128,5 +128,7 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
+st.pyplot(plt)
+
 
 
