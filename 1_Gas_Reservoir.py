@@ -36,5 +36,5 @@ comment = st.text_input("Enter comment: ")
 Pwf = st.number_input("Enter flowing bottomhole pressure (in bar): ")
 Q = st.number_input("Enter rate (in km3/d): ")
 
-st.markdown("ahora hay que ver como incorporar muchos tests y como hacer para darle play al codigo que hace la IPR y vincular todo con lo anterior")
+st.markdown("ahora hay que ver como incorporar muchos tests... se podria poner un boton add test data y que te de las ventanas para cargar datos... algo asi...y como hacer para darle play al codigo que hace la IPR y vincular todo con lo anterior")
 
