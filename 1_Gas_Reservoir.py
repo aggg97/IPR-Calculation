@@ -28,6 +28,7 @@ $Pwf=\sqrt{Pws ^2-a \cdot Q^2 -b \cdot Q }$
 
 st.markdown(forcheimer)
 
+Pwf = st.number_input(float(("Enter reservoir pressure (in bar): ")))
 
 st.header("Enter test data: ")
 date = st.date_input("Enter date: ")
