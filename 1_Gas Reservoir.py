@@ -6,4 +6,3 @@ from tabulate import tabulate
 
 
 st.title("IPR Calculation")
-st.markdown("Forcheimer Reservoir Model")
