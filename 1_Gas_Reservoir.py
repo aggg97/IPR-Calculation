@@ -26,7 +26,7 @@ def collect_data():
 
         data.append((date, comment, Pwf, Q))
         
-    ata.append((date, comment, Pws, Pwf, Q))
+    data.append((date, comment, Pws, Pwf, Q))
     # Print data as a table
     st.subheader("Input Data Summary")
     headers = ["Date", "Comment", "Pwf (bar)", "Rate (km3/d)"]
