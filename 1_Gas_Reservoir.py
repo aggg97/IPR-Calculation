@@ -76,8 +76,8 @@ def main():
             # Plot
             st.subheader("IPR Curve")
             fig, ax = plt.subplots()
-            ax.scatter(Q_data, P_data, color='red', label='Test Data')
-            ax.plot(Q_range, Pwf_fit, color='blue', label='Fitted Curve')
+            ax.scatter(Q_data/1000, P_data, color='red', label='Test Data')
+            ax.plot(Q_range/1000, Pwf_fit, color='blue', label='Fitted Curve')
             ax.set_xlabel('Rate (km$^3$/ d)')
             ax.set_ylabel('Pressure (bar)')
             ax.set_title('Pressure vs Rate')
