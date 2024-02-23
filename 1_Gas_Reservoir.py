@@ -8,11 +8,12 @@ from tabulate import tabulate
 def curve_IPR(Q, a, b):
     return np.sqrt(-a * Q ** 2 - b * Q + Pws**2)
 
+Pws = st.number_input("Reservoir Pressure (Pws) (bar)")
 # Function to collect input data
 def collect_data():
     st.subheader("Input Test Data")
     rows = st.number_input("Number of Test Data", min_value=1, value=1)
-    Pws = st.number_input("Reservoir Pressure (Pws) (bar)")
+
 
     # Create an empty list to store input values
     data = []
