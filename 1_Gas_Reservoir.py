@@ -19,13 +19,10 @@ def collect_data():
 
     for i in range(rows):
         st.write(f"### Test Data {i+1}")
-        col1, col2 = st.columns(2)
-        with col1:
-            date = st.text_input("Date", key=f"date_{i}")
-            Pwf = st.number_input("Flowing Bottomhole Pressure (Pwf) (bar)", key=f"Pwf_{i}")
-        with col2:
-            comment = st.text_input("Comment", key=f"comment_{i}")
-            Q = st.number_input("Rate (Q) (km3/d)", key=f"Q_{i}")
+        date = st.date_input("Date", key=f"date_{i}")
+        comment = st.text_input("Comment", key=f"comment_{i}")
+        Pwf = st.number_input("Flowing Bottomhole Pressure (Pwf) (bar)", key=f"Pwf_{i}")
+        Q = st.number_input("Rate (Q) (km3/d)", key=f"Q_{i}")
 
         data.append((date, comment, Pwf, Q))
 
