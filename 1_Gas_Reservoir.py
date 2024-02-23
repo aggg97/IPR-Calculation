@@ -25,23 +25,35 @@ def collect_data():
         Q = st.number_input("Rate (Q) (km3/d)", key=f"Q_{i}")
 
         data.append((date, comment, Pwf, Q))
-
+        
+    ata.append((date, comment, Pws, Pwf, Q))
     # Print data as a table
     st.subheader("Input Data Summary")
     headers = ["Date", "Comment", "Pwf (bar)", "Rate (km3/d)"]
     st.write(tabulate(data, headers=headers, tablefmt="grid"))
 
-    return Pws, data
+    return data
 
 def main():
     st.title("IPR Curve Fitting")
 
     # Collect test data
-    Pws, data = collect_data()
+    data = collect_data()
+
+    # Convert rate from km3/d to Sm3/day
+    for i in range(len(data)):
+    data[i] = (data[i][0], data[i][1], data[i][2], data[i][3], data[i][4] * 1e3)
+
+
+    Pws=data[0][2]
+
+    # For Pws
+    data2 = [(Pws,0)]
+
 
     # Convert data into arrays
-    Q_data = np.array([d[3] for d in data])
-    P_data = np.array([d[2] for d in data])
+    Q_data = np.array([d[4] for d in data]+[d[1] for d in data2])
+    P_data = np.array([d[3] for d in data]+[d[0] for d in data2])
 
     # Perform curve fitting
     initial_guess = [3.75e-9, 4.17e-4]  # Initial guess for the parameters a, b, and c
