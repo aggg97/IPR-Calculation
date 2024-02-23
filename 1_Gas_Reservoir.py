@@ -32,10 +32,10 @@ def collect_data():
     st.write("\nInput Data:")
     headers = ["Date", "Comment", "Pws (bar)", "Pwf (bar)", "Rate (km3/d)"]
     st.write(tabulate(data, headers=headers, tablefmt="grid"))
-    return data, Pws
+    return data
 
 # Collect test data
-data, Pws = collect_data()
+data = collect_data()
 
 # Convert rate from km3/d to Sm3/day
 for i in range(len(data)):
