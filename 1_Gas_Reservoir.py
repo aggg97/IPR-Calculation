@@ -29,7 +29,7 @@ def collect_data():
             break
 
 # Collect test data
-data, Pws = collect_data()
+data= collect_data()
 
 # Convert data into arrays
 Q_data = np.array([d[3] for d in data])
