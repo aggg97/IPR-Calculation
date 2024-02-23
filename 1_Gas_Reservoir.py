@@ -26,7 +26,7 @@ def collect_and_calculate_IPR():
             comment = st.text_input("Enter comment:")
             Pwf = st.number_input("Enter flowing bottomhole pressure (in bar):")
             Q = st.number_input("Enter rate (in km3/d):")
-            submit_button = st.form_submit_button(label="Add Data")
+            submit_button = st.form_submit_button(label="Submit")
             if submit_button:
                 data.append((date, comment, Pwf, Q))
             st.write("\n")
