@@ -23,11 +23,6 @@ def collect_data():
         Q = st.number_input("Enter rate (in km3/d): ")
         data.append((date, comment, Pwf, Q))
 
-        # Add another test data?
-        another = st.radio("Do you want to enter another data point?", ('Yes', 'No'))
-        if another == 'No':
-            break
-
     # Print data as a table
     st.write("\nInput Data:")
     headers = ["Date", "Comment", "Pwf (bar)", "Rate (km3/d)"]
