@@ -14,17 +14,31 @@ def curve_IPR(Q, a, b, Pws):
 def collect_data():
     data = []
     Pws = st.number_input("Enter reservoir pressure (in bar): ")
-    add_more = st.checkbox("Add Test Data")
-    while add_more:
-        st.write("Enter test data:")
-        date = st.text_input("Enter date: ")
-        comment = st.text_input("Enter comment: ")
-        Pwf = st.number_input("Enter flowing bottomhole pressure (in bar): ")
-        Q = st.number_input("Enter rate (in km3/d): ")
-        data.append((date, comment, Pwf, Q))
 
-        # Add another test data?
-        add_more = st.checkbox("Add More Test Data")
+    # Create a list to store data entry forms
+    forms = []
+
+    # Define a function to add a new data entry form
+    def add_data_entry():
+        with st.form(key=f"form_{len(forms)}"):
+            st.write("Enter test data:")
+            date = st.text_input("Enter date:")
+            comment = st.text_input("Enter comment:")
+            Pwf = st.number_input("Enter flowing bottomhole pressure (in bar):")
+            Q = st.number_input("Enter rate (in km3/d):")
+            submit_button = st.form_submit_button(label="Add Data")
+            if submit_button:
+                data.append((date, comment, Pwf, Q))
+            st.write("\n")
+        return submit_button
+
+    # Display initial data entry form
+    add_data_entry()
+
+    # Allow users to add more data entry forms dynamically
+    while st.button("Add More Data"):
+        if add_data_entry():
+            forms.append(True)
     
     # Print data as a table
     st.write("\nInput Data:")
