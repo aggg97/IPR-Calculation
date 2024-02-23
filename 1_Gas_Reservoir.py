@@ -38,14 +38,14 @@ def main():
         if st.button('Run IPR Curve Fitting'):
             # Convert rate from km3/d to Sm3/day
             for i in range(len(data)):
-                data[i] = (data[i][0], data[i][1], data[i][2], data[i][3], data[i][3] * 1e3)
+                data[i] = (data[i][0], data[i][1], data[i][2],  data[i][3] * 1e3)
 
             # For Pws
-            data.append(('', '', Pws,"", 0))  # Add Pws to the data list
-
+            data2 = [(Pws,0)]
+            
             # Convert data into arrays
-            Q_data = np.array([d[4] for d in data])
-            P_data = np.array([d[3] for d in data]+[d[2] for d in data])
+            Q_data = np.array([d[3] for d in data]+[d[1] for d in data2])
+            P_data = np.array([d[2] for d in data]+[d[0] for d in data2])
 
             # Perform curve fitting
             initial_guess = [3.75e-9, 4.17e-4]  # Initial guess for the parameters a, b, and c
