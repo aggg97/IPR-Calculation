@@ -52,11 +52,7 @@ with st.form("Test Data"):
     for data in test_data:
         st.write("Date: ", data[0], "Comment: ", data[1], "BHFP (bar)", data[2], "Rate (km3/d): ", data[3])
 
-    # Show submitted test data
-    st.write("Submitted Test Data:")
-    for data in test_data:
-        st.write("Date: ", data[0], "Comment: ", data[1], "BHFP (bar)", data[2], "Rate (km3/d): ", data[3])
-
+   
 # Calculate IPR
 if st.button("Calculate IPR for test data"):
     Q_data = np.array([d[3] for d in test_data])  # Extracting rate data
