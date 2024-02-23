@@ -14,7 +14,7 @@ def curve_IPR(Q, a, b, Pws):
 def collect_data():
     data = []
     Pws = st.number_input("Enter reservoir pressure (in bar): ")
-    add_more = True  # Initialize to True to start adding data
+    add_more = st.button("Add Test Data")
     while add_more:
         st.write("Enter test data:")
         date = st.text_input("Enter date: ")
@@ -24,12 +24,12 @@ def collect_data():
         data.append((date, comment, Pwf, Q))
 
         # Add another test data?
-        add_more = st.checkbox("Add More Data")
+        add_more = st.button("Add Test Data")
     
     # Print data as a table
     st.write("\nInput Data:")
     headers = ["Date", "Comment", "Pwf (bar)", "Rate (km3/d)"]
-    st.write(tabulate(data, headers=headers, tablefmt="grid"))
+    st.table(data)
     return data, Pws
 
 # Collect test data
