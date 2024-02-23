@@ -84,6 +84,10 @@ def main():
             ax.legend()
             ax.grid(True)
 
+            # Set the limits of the axes to ensure the plot starts at (0, 0)
+            ax.set_xlim(left=0, auto=True)
+            ax.set_ylim(bottom=0, auto=True)
+
             st.pyplot(fig)
 
     
