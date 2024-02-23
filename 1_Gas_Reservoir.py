@@ -63,16 +63,16 @@ if st.button("Calculate IPR for test data"):
     a_fit, b_fit = params
 
     st.header("Fitted Parameters:")
-    st.write(f"a: {a_fit} bar2/(Sm3/day)2")
-    st.write(f"b: {b_fit} bar2/(Sm3/day)") 
+  #  st.write(f"a: {a_fit} bar2/(Sm3/day)2")
+  #  st.write(f"b: {b_fit} bar2/(Sm3/day)") 
 
     # AOF Calculation
     discriminant = b_fit ** 2 + 4 * a_fit * Pws ** 2
     if discriminant >= 0:
         AOF = (-b_fit + np.sqrt(discriminant)) / (2 * a_fit)
-        st.write(f"AOF: {AOF/1000} km3/d")
+    #    st.write(f"AOF: {AOF/1000} km3/d")
     else:
-        st.write("No real roots exist.")
+    #    st.write("No real roots exist.")
 
     # Plotting
     Q_range = np.linspace(0, AOF, 500)
