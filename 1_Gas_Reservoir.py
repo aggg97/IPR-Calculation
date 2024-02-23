@@ -69,7 +69,7 @@ else:
 
 # Range of points for extrapolation of the curve
 Q_range = np.linspace(0, AOF, 500)
-Pwf_fit = curve_IPR(Q_range, a_fit, b_fit, Pws)
+Pwf_fit = curve_IPR(Q_range, a_fit, b_fit)
 
 # Test points
 plt.scatter(Q_data / 1000, P_data, color='red', label='Reservoir Pressure and Test Data ')
