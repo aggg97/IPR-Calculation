@@ -12,16 +12,20 @@ def curve_IPR(Q, a, b, Pws):
 def collect_data():
     st.subheader("Input Test Data")
     rows = st.number_input("Number of Test Data", min_value=1, value=1)
+    Pws = st.number_input("Reservoir Pressure (Pws) (bar)")
 
     # Create an empty list to store input values
     data = []
 
     for i in range(rows):
         st.write(f"### Test Data {i+1}")
-        date = st.text_input("Date", key=f"date_{i}")
-        comment = st.text_input("Comment", key=f"comment_{i}")
-        Pwf = st.number_input("Flowing Bottomhole Pressure (Pwf) (bar)", key=f"Pwf_{i}")
-        Q = st.number_input("Rate (Q) (km3/d)", key=f"Q_{i}")
+        col1, col2 = st.columns(2)
+        with col1:
+            date = st.text_input("Date", key=f"date_{i}")
+            Pwf = st.number_input("Flowing Bottomhole Pressure (Pwf) (bar)", key=f"Pwf_{i}")
+        with col2:
+            comment = st.text_input("Comment", key=f"comment_{i}")
+            Q = st.number_input("Rate (Q) (km3/d)", key=f"Q_{i}")
 
         data.append((date, comment, Pwf, Q))
 
@@ -30,13 +34,13 @@ def collect_data():
     headers = ["Date", "Comment", "Pwf (bar)", "Rate (km3/d)"]
     st.write(tabulate(data, headers=headers, tablefmt="grid"))
 
-    return data
+    return Pws, data
 
 def main():
     st.title("IPR Curve Fitting")
 
     # Collect test data
-    data = collect_data()
+    Pws, data = collect_data()
 
     # Convert data into arrays
     Q_data = np.array([d[3] for d in data])
@@ -54,7 +58,7 @@ def main():
 
     # Range of points for extrapolation of the curve
     Q_range = np.linspace(0, np.max(Q_data), 500)
-    Pwf_fit = curve_IPR(Q_range, a_fit, b_fit, P_data[0])  # Assuming constant Pws for simplicity
+    Pwf_fit = curve_IPR(Q_range, a_fit, b_fit, Pws)  # Assuming constant Pws for simplicity
 
     # Plot
     st.subheader("IPR Curve")
