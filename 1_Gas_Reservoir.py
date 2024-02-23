@@ -22,7 +22,7 @@ def collect_and_calculate_IPR():
     def add_data_entry():
         with st.form(key=f"form_{len(forms)}"):
             st.write("Enter test data:")
-            date = st.text_input("Enter date:")
+            date = st.date_input("Enter date:")
             comment = st.text_input("Enter comment:")
             Pwf = st.number_input("Enter flowing bottomhole pressure (in bar):")
             Q = st.number_input("Enter rate (in km3/d):")
