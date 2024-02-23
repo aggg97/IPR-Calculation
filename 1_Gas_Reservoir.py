@@ -58,9 +58,20 @@ def main():
             st.write(f"a: {a_fit:2e} bar2/(Sm3/day)2")
             st.write(f"b: {b_fit:2e} bar2/(Sm3/day)")
 
+            st.write(f"Reservoir Pressure: {Pws} bar")
+
+            # AOF Calculation
+            # Bhaskara’s formula to find positive root
+            discriminant = b_fit ** 2 + 4 * a_fit * Pws ** 2
+            if discriminant >= 0:
+                AOF = (-b_fit + np.sqrt(discriminant)) / (2 * a_fit)
+                st.write(f"AOF: {AOF/1000:.2f} km3/d")
+            else:
+                st.write("No real roots exist.")
+            
             # Range of points for extrapolation of the curve
-            Q_range = np.linspace(0, np.max(Q_data), 500)
-            Pwf_fit = curve_IPR(Q_range, a_fit, b_fit)  # Assuming constant Pws for simplicity
+            Q_range = np.linspace(0, AOF, 500)
+            Pwf_fit = curve_IPR(Q_range, a_fit, b_fit)
 
             # Plot
             st.subheader("IPR Curve")
