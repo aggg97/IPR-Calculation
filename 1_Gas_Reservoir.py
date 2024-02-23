@@ -24,13 +24,12 @@ def collect_data():
         Pwf = st.number_input("Flowing Bottomhole Pressure (Pwf) (bar)", key=f"Pwf_{i}")
         Q = st.number_input("Rate (Q) (km3/d)", key=f"Q_{i}")
 
-        data.append((date, comment, Pwf, Q))
         
     data.append((date, comment, Pws, Pwf, Q))
     
     # Print data as a table
     st.subheader("Input Data Summary")
-    headers = ["Date", "Comment", "Pwf (bar)", "Rate (km3/d)"]
+    headers = ["Date", "Comment", "Pws (bar)", "Pwf (bar)", "Rate (km3/d)"]
     st.write(tabulate(data, headers=headers, tablefmt="grid"))
 
     return data
