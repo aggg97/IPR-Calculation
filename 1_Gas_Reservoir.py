@@ -5,18 +5,17 @@ from scipy.optimize import curve_fit
 
 st.title("IPR Calculation")
 
-# Definition of the quadratic curve equation (Inflow Performance Relationship - IPR)
+# Define the quadratic curve equation (Inflow Performance Relationship - IPR)
 def curve_IPR(Q, a, b, Pws):
     return np.sqrt(-a * Q ** 2 - b * Q + Pws ** 2)
 
 # Function to perform curve fitting and calculations
 def calculate_IPR(data, Pws):
-    # Convert data into arrays
     Q_data = np.array([d[3] for d in data])
     P_data = np.array([d[2] for d in data])
 
     # Perform curve fitting
-    initial_guess = [3.75e-9, 4.17e-4]  # Initial guess for the parameters a, b, and c
+    initial_guess = [3.75e-9, 4.17e-4]  # Initial guess for the parameters a, b
     bounds = ([0, 0], [np.inf, np.inf])  # Bounds for the parameters
     params, _ = curve_fit(curve_IPR, Q_data, P_data, p0=initial_guess, bounds=bounds)
     a_fit, b_fit = params
@@ -27,7 +26,6 @@ def calculate_IPR(data, Pws):
     st.write(f"Reservoir Pressure: {Pws:.2f} bar")
 
     # AOF Calculation
-    # Bhaskara’s formula to find positive root
     discriminant = b_fit ** 2 + 4 * a_fit * Pws ** 2
     if discriminant >= 0:
         AOF = (-b_fit + np.sqrt(discriminant)) / (2 * a_fit)
@@ -39,14 +37,9 @@ def calculate_IPR(data, Pws):
     Q_range = np.linspace(0, AOF, 500)
     Pwf_fit = curve_IPR(Q_range, a_fit, b_fit, Pws)
 
-    # Test points
+    # Plot
     plt.scatter(Q_data, P_data, color='red', label='Test Data')
-    # Fitted curve
     plt.plot(Q_range, Pwf_fit, color='blue', label='Fitted Curve')
-
-    # Set the limits for both x and y axes
-    plt.xlim(0, plt.xlim()[1])  # x-axis minimum to 0
-    plt.ylim(0, plt.ylim()[1])  # y-axis minimum to 0
 
     plt.xlabel('Rate (km$^3$/ d)')
     plt.ylabel('Pressure (bar)')
@@ -59,21 +52,13 @@ def calculate_IPR(data, Pws):
 data = []
 Pws = st.number_input("Enter reservoir pressure (in bar): ")
 
-# Function to add more data
-def add_more_data():
-    st.write("Enter test data:")
-    date = st.text_input("Date:")
-    comment = st.text_input("Comment:")
-    Pwf = st.number_input("Flowing bottomhole pressure (bar):")
-    Q = st.number_input("Rate (km3/d):")
-    data.append((date, comment, Pwf, Q))
-
-# Load initial test data
-add_more_data()
-
-# Option to add more data
-if st.button("Add More Data"):
-    add_more_data()
+# Collect test data
+st.write("Enter test data:")
+date = st.text_input("Date:")
+comment = st.text_input("Comment:")
+Pwf = st.number_input("Flowing bottomhole pressure (bar):")
+Q = st.number_input("Rate (km3/d):")
+data.append((date, comment, Pwf, Q))
 
 # Perform calculations
 if st.button("Calculate IPR"):
