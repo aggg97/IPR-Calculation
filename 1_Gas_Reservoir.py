@@ -41,6 +41,7 @@ st.button("Calculate IPR for test data")
 st.markdown("ahora hay que ver como incorporar muchos tests... se podria poner un boton add test data y que te de las ventanas para cargar datos... algo asi...y como hacer para darle play al codigo que hace la IPR y vincular todo con lo anterior")
 
 with st.form("Test Data"):
+   st.write("Enter Test Data")
    date = st.date_input("Enter date: ")
    comment = st.text_input("Enter comment: ")
    Pwf = st.number_input("Enter flowing bottomhole pressure (in bar): ")
