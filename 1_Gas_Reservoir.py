@@ -41,11 +41,11 @@ def main():
                 data[i] = (data[i][0], data[i][1], data[i][2], data[i][3], data[i][3] * 1e3)
 
             # For Pws
-            data.append(('', '', Pws, 0, 0))  # Add Pws to the data list
+            data.append(('', '', Pws,"", 0))  # Add Pws to the data list
 
             # Convert data into arrays
             Q_data = np.array([d[4] for d in data])
-            P_data = np.array([d[3] for d in data])
+            P_data = np.array([d[3] for d in data]+[d[2] for d in data]))
 
             # Perform curve fitting
             initial_guess = [3.75e-9, 4.17e-4]  # Initial guess for the parameters a, b, and c
