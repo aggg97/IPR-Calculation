@@ -48,8 +48,8 @@ params, _ = curve_fit(curve_IPR, Q_data, P_data, p0=initial_guess, bounds=bounds
 a_fit, b_fit = params
 
 st.write("\n\nFitted Parameters:")
-st.write(f"a: {a_fit:.2f} bar2/(Sm3/day)2")
-st.write(f"b: {b_fit:.2f} bar2/(Sm3/day)")
+st.write(f"a: {a_fit:.2e} bar2/(Sm3/day)2")
+st.write(f"b: {b_fit:.2e} bar2/(Sm3/day)")
 st.write(f"Reservoir Pressure: {Pws} bar")
 
 # AOF Calculation
