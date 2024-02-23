@@ -5,7 +5,7 @@ from scipy.optimize import curve_fit
 from tabulate import tabulate
 
 # Definition of the quadratic curve equation (Inflow Performance Relationship - IPR)
-def curve_IPR(Q, a, b):
+def curve_IPR(Q, a, b, Pws):
     return np.sqrt(-a * Q ** 2 - b * Q + Pws**2)
 
 # Function to collect input data
@@ -25,44 +25,31 @@ def collect_data():
         Q = st.number_input("Rate (Q) (km3/d)", key=f"Q_{i}")
 
         data.append((date, comment, Pwf, Q))
-        
-    data.append((date, comment, Pws, Pwf, Q))
+
     # Print data as a table
     st.subheader("Input Data Summary")
     headers = ["Date", "Comment", "Pwf (bar)", "Rate (km3/d)"]
     st.write(tabulate(data, headers=headers, tablefmt="grid"))
 
-    return data
+    return Pws, data
 
 def main():
     st.title("IPR Curve Fitting")
 
     # Collect test data
-    data = collect_data()
+    Pws, data = collect_data()
 
-    # Convert rate from km3/d to Sm3/day
-    for i in range(len(data)):
-        data[i] = (data[i][0], data[i][1], data[i][2], data[i][3], data[i][4] * 1e3)
-
-
-    Pws=data[0][2]
-
-    # For Pws
-    data2 = [(Pws,0)]
-
-
-    # Convert data into arrays
     if data:
-        Q_data = np.array([d[4] for d in data])
-        P_data = np.array([d[3] for d in data])
-    
-        Pws = data[0][2]
+        # Convert rate from km3/d to Sm3/day
+        for i in range(len(data)):
+            data[i] = (data[i][0], data[i][1], data[i][2], data[i][3], data[i][3] * 1e3)
 
         # For Pws
-        data2 = [(Pws, 0)]
+        data.append(('', '', Pws, 0, 0))  # Add Pws to the data list
 
-        Q_data = np.concatenate([Q_data, [d[1] for d in data2]])
-        P_data = np.concatenate([P_data, [d[0] for d in data2]])
+        # Convert data into arrays
+        Q_data = np.array([d[4] for d in data])
+        P_data = np.array([d[3] for d in data])
 
         # Perform curve fitting
         initial_guess = [3.75e-9, 4.17e-4]  # Initial guess for the parameters a, b, and c
@@ -92,3 +79,6 @@ def main():
         st.pyplot(fig)
     else:
         st.write("No data provided.")
+
+if __name__ == "__main__":
+    main()
