@@ -57,17 +57,17 @@ bounds = ([0, 0], [np.inf, np.inf])  # Bounds for the parameters
 params, _ = curve_fit(curve_IPR, Q_data,P_data,p0=initial_guess, bounds=bounds)
 a_fit, b_fit = params
 
+st.metric(f"Reservoir Pressure: {b_fit:.2f} bar")
 st.write("\n\nFitted Parameters:")
-st.write(f"a: {a_fit} bar2/(Sm3/day)2")
-st.write(f"b: {b_fit} bar2/(Sm3/day)")
-st.write(f"Reservoir Pressure: {Pws} bar")
+st.metric(f"a: {a_fit:.2f} bar2/(Sm3/day)2")
+st.metric(f"b: {b_fit:.2f} bar2/(Sm3/day)")
 
 # AOF Calculation
 # Bhaskara’s formula to find positive root
 discriminant = b_fit ** 2 + 4 * a_fit * Pws ** 2
 if discriminant >= 0:
     AOF = (-b_fit + np.sqrt(discriminant)) / (2 * a_fit)
-    st.write(f"AOF: {AOF/1000} km3/d")
+    st.metric(f"AOF: {AOF/1000:.2f} km3/d")
 else:
     st.write("No real roots exist.")
 
