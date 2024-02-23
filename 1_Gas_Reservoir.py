@@ -45,7 +45,7 @@ def main():
 
             # Convert data into arrays
             Q_data = np.array([d[4] for d in data])
-            P_data = np.array([d[3] for d in data]+[d[2] for d in data]))
+            P_data = np.array([d[3] for d in data]+[d[2] for d in data])
 
             # Perform curve fitting
             initial_guess = [3.75e-9, 4.17e-4]  # Initial guess for the parameters a, b, and c
