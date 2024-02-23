@@ -7,7 +7,7 @@ from tabulate import tabulate
 st.title("IPR Calculation")
 
 # Definition of the quadratic curve equation (Inflow Performance Relationship - IPR)
-def curve_IPR(Q, a, b):
+def curve_IPR(Q, a, b, data):
     Pws = data[0][2]
     return np.sqrt(-a * Q ** 2 - b * Q + Pws**2)
 
@@ -18,7 +18,7 @@ def collect_data():
     Q=0
     while True:
         st.write("Enter test data:")
-        date = st.date_input("Enter date: ")
+        date = st.text_input("Enter date: ")
         comment = st.text_input("Enter comment: ")
         Pwf = st.number_input("Enter flowing bottomhole pressure (in bar): ")
         Q = st.number_input("Enter rate (in km3/d): ")
@@ -54,26 +54,26 @@ P_data = np.array([d[3] for d in data]+[d[0] for d in data2])
 # Perform curve fitting
 initial_guess = [3.75e-9, 4.17e-4]  # Initial guess for the parameters a, b, and c
 bounds = ([0, 0], [np.inf, np.inf])  # Bounds for the parameters
-params, _ = curve_fit(curve_IPR, Q_data,P_data,p0=initial_guess, bounds=bounds)
+params, _ = curve_fit(curve_IPR, Q_data,P_data,p0=initial_guess, bounds=bounds, args=(data,))
 a_fit, b_fit = params
 
-st.metric(f"Reservoir Pressure: {b_fit:.2f} bar")
 st.write("\n\nFitted Parameters:")
-st.metric(f"a: {a_fit:.2f} bar2/(Sm3/day)2")
-st.metric(f"b: {b_fit:.2f} bar2/(Sm3/day)")
+st.write(f"a: {a_fit:.2f} bar2/(Sm3/day)2")
+st.write(f"b: {b_fit:.2f} bar2/(Sm3/day)")
+st.write(f"Reservoir Pressure: {Pws:.2f} bar")
 
 # AOF Calculation
 # Bhaskara’s formula to find positive root
 discriminant = b_fit ** 2 + 4 * a_fit * Pws ** 2
 if discriminant >= 0:
     AOF = (-b_fit + np.sqrt(discriminant)) / (2 * a_fit)
-    st.metric(f"AOF: {AOF/1000:.2f} km3/d")
+    st.write(f"AOF: {AOF/1000:.2f} km3/d")
 else:
     st.write("No real roots exist.")
 
 # Range of points for extrapolation of the curve
 Q_range = np.linspace(0, AOF, 500)
-Pwf_fit = curve_IPR(Q_range, a_fit, b_fit)
+Pwf_fit = curve_IPR(Q_range, a_fit, b_fit, data)
 
 # Test points
 plt.scatter(Q_data / 1000, P_data, color='red', label='Reservoir Pressure and Test Data ')
