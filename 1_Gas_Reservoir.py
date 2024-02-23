@@ -43,12 +43,6 @@ def main():
             # For Pws
             data.append(('', '', Pws, 0, 0))  # Add Pws to the data list
 
-            
-            #  Print data as a table
-             st.subheader("Input Data Summary")
-             headers = ["Date", "Comment", "Pwf (bar)", "Rate (km3/d)"]
-             st.write(tabulate(data, headers=headers, tablefmt="grid"))
-
             # Convert data into arrays
             Q_data = np.array([d[4] for d in data])
             P_data = np.array([d[3] for d in data])
