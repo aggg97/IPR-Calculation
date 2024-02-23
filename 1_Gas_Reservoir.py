@@ -42,7 +42,7 @@ def main():
 
     # Convert rate from km3/d to Sm3/day
     for i in range(len(data)):
-    data[i] = (data[i][0], data[i][1], data[i][2], data[i][3], data[i][4] * 1e3)
+        data[i] = (data[i][0], data[i][1], data[i][2], data[i][3], data[i][4] * 1e3)
 
 
     Pws=data[0][2]
