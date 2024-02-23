@@ -52,4 +52,20 @@ def calculate_IPR(data, Pws):
 data = []
 Pws = st.number_input("Enter reservoir pressure (in bar): ")
 
-# Col
+# Collect test data
+st.write("Enter test data:")
+date = st.text_input("Date:")
+comment = st.text_input("Comment:")
+Pwf = st.number_input("Flowing bottomhole pressure (bar):")
+Q = st.number_input("Rate (km3/d):")
+data.append((date, comment, Pwf, Q))
+
+# Perform calculations
+if st.button("Calculate IPR"):
+    # Print data as a table
+    st.write("\nInput Data:")
+    headers = ["Date", "Comment", "Pwf (bar)", "Rate (km3/d)"]
+    st.table(data)
+
+    # Perform calculations
+    calculate_IPR(data, Pws)
