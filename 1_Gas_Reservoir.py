@@ -18,7 +18,7 @@ def collect_data():
     Q=0
     while True:
         st.write("Enter test data:")
-        date = st.text_input("Enter date: ")
+        date = st.data_input("Enter date: ")
         comment = st.text_input("Enter comment: ")
         Pwf = st.number_input("Enter flowing bottomhole pressure (in bar): ")
         Q = st.number_input("Enter rate (in km3/d): ")
