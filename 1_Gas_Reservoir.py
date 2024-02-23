@@ -5,7 +5,7 @@ from scipy.optimize import curve_fit
 from tabulate import tabulate
 
 # Definition of the quadratic curve equation (Inflow Performance Relationship - IPR)
-def curve_IPR(Q, a, b, Pws):
+def curve_IPR(Q, a, b:
     return np.sqrt(-a * Q ** 2 - b * Q + Pws**2)
 
 # Function to collect input data
@@ -59,7 +59,7 @@ def main():
 
             # Range of points for extrapolation of the curve
             Q_range = np.linspace(0, np.max(Q_data), 500)
-            Pwf_fit = curve_IPR(Q_range, a_fit, b_fit, Pws)  # Assuming constant Pws for simplicity
+            Pwf_fit = curve_IPR(Q_range, a_fit, b_fit)  # Assuming constant Pws for simplicity
 
             # Plot
             st.subheader("IPR Curve")
