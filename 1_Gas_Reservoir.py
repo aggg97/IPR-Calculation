@@ -28,12 +28,6 @@ def collect_data():
         if another == 'No':
             break
 
-    # Print data as a table
-    st.write("\nInput Data:")
-    headers = ["Date", "Comment", "Pwf (bar)", "Rate (km3/d)"]
-    st.write(tabulate(data, headers=headers, tablefmt="grid"))
-    return data, Pws
-
 # Collect test data
 data, Pws = collect_data()
 
