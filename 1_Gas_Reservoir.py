@@ -28,12 +28,6 @@ def collect_data():
         if another == 'No':
             break
 
-    # Print data as a table
-    st.write("\nInput Data:")
-    headers = ["Date", "Comment", "Pwf (bar)", "Rate (km3/d)"]
-    st.write(tabulate(data, headers=headers, tablefmt="grid"))
-    return data, Pws
-
 # Collect test data
 data, Pws = collect_data()
 
@@ -47,19 +41,26 @@ bounds = ([0, 0], [np.inf, np.inf])  # Bounds for the parameters
 params, _ = curve_fit(curve_IPR, Q_data, P_data, p0=initial_guess, bounds=bounds)
 a_fit, b_fit = params
 
-st.write("\n\nFitted Parameters:")
-st.write(f"a: {a_fit:.2e} bar2/(Sm3/day)2")
-st.write(f"b: {b_fit:.2e} bar2/(Sm3/day)")
-st.write(f"Reservoir Pressure: {Pws} bar")
+st.header("\n\nFitted Parameters:")
+st.metric(f"a: {a_fit:.2e} bar2/(Sm3/day)2")
+st.metric(f"b: {b_fit:.2e} bar2/(Sm3/day)")
+st.metrix(f"Reservoir Pressure: {Pws} bar")
 
 # AOF Calculation
 # Bhaskara’s formula to find positive root
 discriminant = b_fit ** 2 + 4 * a_fit * Pws ** 2
 if discriminant >= 0:
     AOF = (-b_fit + np.sqrt(discriminant)) / (2 * a_fit)
-    st.write(f"AOF: {AOF:.2f} km3/d")
+    st.metric(f"AOF: {AOF:.2f} km3/d")
 else:
     st.write("No real roots exist.")
+
+
+# Print data as a table
+st.write("\nInput Data:")
+headers = ["Date", "Comment", "Pwf (bar)", "Rate (km3/d)"]
+st.table(data)
+
 
 # Range of points for extrapolation of the curve
 Q_range = np.linspace(0, AOF, 500)
