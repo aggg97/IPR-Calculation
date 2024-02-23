@@ -51,44 +51,44 @@ def main():
     data2 = [(Pws,0)]
 
 
-# Convert data into arrays
-if data:
-    Q_data = np.array([d[4] for d in data])
-    P_data = np.array([d[3] for d in data])
+    # Convert data into arrays
+    if data:
+        Q_data = np.array([d[4] for d in data])
+        P_data = np.array([d[3] for d in data])
     
-    Pws = data[0][2]
+        Pws = data[0][2]
 
-    # For Pws
-    data2 = [(Pws, 0)]
+        # For Pws
+        data2 = [(Pws, 0)]
 
-    Q_data = np.concatenate([Q_data, [d[1] for d in data2]])
-    P_data = np.concatenate([P_data, [d[0] for d in data2]])
+        Q_data = np.concatenate([Q_data, [d[1] for d in data2]])
+        P_data = np.concatenate([P_data, [d[0] for d in data2]])
 
-    # Perform curve fitting
-    initial_guess = [3.75e-9, 4.17e-4]  # Initial guess for the parameters a, b, and c
-    bounds = ([0, 0], [np.inf, np.inf])  # Bounds for the parameters
-    params, _ = curve_fit(curve_IPR, Q_data, P_data, p0=initial_guess, bounds=bounds)
-    a_fit, b_fit = params
+        # Perform curve fitting
+        initial_guess = [3.75e-9, 4.17e-4]  # Initial guess for the parameters a, b, and c
+        bounds = ([0, 0], [np.inf, np.inf])  # Bounds for the parameters
+        params, _ = curve_fit(curve_IPR, Q_data, P_data, p0=initial_guess, bounds=bounds)
+        a_fit, b_fit = params
 
-    st.write("Fitted Parameters:")
-    st.write(f"a: {a_fit:2e} bar2/(Sm3/day)2")
-    st.write(f"b: {b_fit:2e} bar2/(Sm3/day)")
+        st.write("Fitted Parameters:")
+        st.write(f"a: {a_fit:2e} bar2/(Sm3/day)2")
+        st.write(f"b: {b_fit:2e} bar2/(Sm3/day)")
 
-    # Range of points for extrapolation of the curve
-    Q_range = np.linspace(0, np.max(Q_data), 500)
-    Pwf_fit = curve_IPR(Q_range, a_fit, b_fit, Pws)  # Assuming constant Pws for simplicity
+        # Range of points for extrapolation of the curve
+        Q_range = np.linspace(0, np.max(Q_data), 500)
+        Pwf_fit = curve_IPR(Q_range, a_fit, b_fit, Pws)  # Assuming constant Pws for simplicity
 
-    # Plot
-    st.subheader("IPR Curve")
-    fig, ax = plt.subplots()
-    ax.scatter(Q_data, P_data, color='red', label='Test Data')
-    ax.plot(Q_range, Pwf_fit, color='blue', label='Fitted Curve')
-    ax.set_xlabel('Rate (km$^3$/ d)')
-    ax.set_ylabel('Pressure (bar)')
-    ax.set_title('Pressure vs Rate')
-    ax.legend()
-    ax.grid(True)
+        # Plot
+        st.subheader("IPR Curve")
+        fig, ax = plt.subplots()
+        ax.scatter(Q_data, P_data, color='red', label='Test Data')
+        ax.plot(Q_range, Pwf_fit, color='blue', label='Fitted Curve')
+        ax.set_xlabel('Rate (km$^3$/ d)')
+        ax.set_ylabel('Pressure (bar)')
+        ax.set_title('Pressure vs Rate')
+        ax.legend()
+        ax.grid(True)
 
-    st.pyplot(fig)
-else:
-    st.write("No data provided.")
+        st.pyplot(fig)
+    else:
+        st.write("No data provided.")
