@@ -24,9 +24,9 @@ def collect_data():
         Q = st.number_input("Enter rate (in km3/d): ")
         data.append((date, comment, Pws, Pwf, Q))
 
-        # Add another test data?
-        another = st.radio("Do you want to enter another data point?", ('Yes', 'No'))
-        if another == 'No':
+         # Add another test data?
+        add_more = st.button("Add More Data")
+        if not add_more:
             break
 
     # Print data as a table
