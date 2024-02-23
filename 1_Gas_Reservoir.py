@@ -27,6 +27,7 @@ def collect_data():
         another = st.radio("Do you want to enter another data point?", ('Yes', 'No'))
         if another == 'No':
             break
+return data
 
 # Collect test data
 data= collect_data()
