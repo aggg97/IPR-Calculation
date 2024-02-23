@@ -51,9 +51,18 @@ def main():
     data2 = [(Pws,0)]
 
 
-    # Convert data into arrays
-    Q_data = np.array([d[4] for d in data]+[d[1] for d in data2])
-    P_data = np.array([d[3] for d in data]+[d[0] for d in data2])
+# Convert data into arrays
+if data:
+    Q_data = np.array([d[4] for d in data])
+    P_data = np.array([d[3] for d in data])
+    
+    Pws = data[0][2]
+
+    # For Pws
+    data2 = [(Pws, 0)]
+
+    Q_data = np.concatenate([Q_data, [d[1] for d in data2]])
+    P_data = np.concatenate([P_data, [d[0] for d in data2]])
 
     # Perform curve fitting
     initial_guess = [3.75e-9, 4.17e-4]  # Initial guess for the parameters a, b, and c
@@ -81,6 +90,5 @@ def main():
     ax.grid(True)
 
     st.pyplot(fig)
-
-if __name__ == "__main__":
-    main()
+else:
+    st.write("No data provided.")
