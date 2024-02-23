@@ -1,4 +1,4 @@
-import streamlit as st
+ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
@@ -22,6 +22,11 @@ def collect_data():
         Pwf = st.number_input("Enter flowing bottomhole pressure (in bar): ")
         Q = st.number_input("Enter rate (in km3/d): ")
         data.append((date, comment, Pwf, Q))
+
+        # Add another test data?
+        another = st.radio("Do you want to enter another data point?", ('Yes', 'No'))
+        if another == 'No':
+            break
 
     # Print data as a table
     st.write("\nInput Data:")
@@ -75,3 +80,4 @@ plt.title('Pressure vs Rate')
 plt.legend()
 plt.grid(True)
 st.pyplot(plt)
+
