@@ -26,6 +26,8 @@ def collect_data():
 
         
     data.append((date, comment, Pws, Pwf, Q))
+
+    Pws=data[0][2]
     
     # Print data as a table
     st.subheader("Input Data Summary")
