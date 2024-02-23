@@ -50,7 +50,6 @@ with st.form("Test Data"):
    # Every form must have a submit button.
    submitted = st.form_submit_button("Submit")
    if submitted:
-       st.write("Reservoir Pressure (bar): ", Pws)
        st.write("Date: ", date, "Comment: ", comment, "BHFP (bar)", Pwf, "Rate (km3/d): ", Q)
 
 
