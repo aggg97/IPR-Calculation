@@ -28,7 +28,7 @@ st.markdown(forcheimer)
 def curve_IPR(Q, a, b, Pws, Pwf):
     return np.sqrt(-a * Q ** 2 - b * Q + Pws**2 - Pwf**2)
 
-# Collecting user input
+    # Collecting user input
 with st.form("Test Data"):
     st.header("Enter Test Data")
     Pws = st.number_input("Enter reservoir pressure (in bar): ")
@@ -41,14 +41,21 @@ with st.form("Test Data"):
         Pwf = st.number_input("Enter flowing bottomhole pressure (in bar): ")
         Q = st.number_input("Enter rate (in km3/d): ")
 
-        submitted = st.form_submit_button("Add Test") # Button to add a test
-        if submitted:
-            st.write("Date: ", date, "Comment: ", comment, "BHFP (bar)", Pwf, "Rate (km3/d): ", Q)
-            test_data.append((date, comment, Pwf, Q))
+        test_data.append((date, comment, Pwf, Q))
 
-        add_more = st.button("Add More Data") # Button to add more test data
+        add_more = st.form_submit_button("Add More Data") # Button to add more test data
         if not add_more:
             break
+
+    # Show submitted test data
+    st.write("Submitted Test Data:")
+    for data in test_data:
+        st.write("Date: ", data[0], "Comment: ", data[1], "BHFP (bar)", data[2], "Rate (km3/d): ", data[3])
+
+    # Show submitted test data
+    st.write("Submitted Test Data:")
+    for data in test_data:
+        st.write("Date: ", data[0], "Comment: ", data[1], "BHFP (bar)", data[2], "Rate (km3/d): ", data[3])
 
 # Calculate IPR
 if st.button("Calculate IPR for test data"):
