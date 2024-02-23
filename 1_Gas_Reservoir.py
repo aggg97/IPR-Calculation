@@ -2,90 +2,91 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
+from tabulate import tabulate
 
 st.title("IPR Calculation")
-st.header("Forcheimer Reservoir Model: ")
 
-forcheimer = ('''The Forcheimer equation expresses the inflow performance in terms of turbulent and non-turbulent pressure drop coefficients expressed as:
+# Definition of the quadratic curve equation (Inflow Performance Relationship - IPR)
+def curve_IPR(Q, a, b):
+    Pws = data[0][2]
+    return np.sqrt(-a * Q ** 2 - b * Q + Pws**2)
 
-*   "a"         the turbulent pressure drop (Non-Darcy Coefficient )
-*   "b"         the laminar pressure drop (Non-Darcy Coefficient)
-
-To represent the IPR in a Pressure vs Rate plot then,
-
-$\Delta P^2 = Pws ^2- Pwf^2 = a \cdot Q^2 + b \cdot Q $
-
-$a \cdot Q^2 + b \cdot Q  - (Pws ^2- Pwf^2 ) = 0$
-
-$a \cdot Q^2 + b \cdot Q  - Pws ^2 + Pwf^2 =0 $
-
-$Pwf=\sqrt{Pws ^2-a \cdot Q^2 -b \cdot Q }$
-''')
-
-st.markdown(forcheimer)
-
-# Function to fit the curve
-def curve_IPR(Q, a, b, Pws, Pwf):
-    return np.sqrt(-a * Q ** 2 - b * Q + Pws**2 - Pwf**2)
-
-    # Collecting user input
-with st.form("Test Data"):
-    st.header("Enter Test Data")
+# Function to collect input data
+def collect_data():
+    data = []
     Pws = st.number_input("Enter reservoir pressure (in bar): ")
-    
-    test_data = []
-
+    Q=0
     while True:
-        date = st.date_input("Enter date: ")
+        st.write("Enter test data:")
+        date = st.text_input("Enter date: ")
         comment = st.text_input("Enter comment: ")
         Pwf = st.number_input("Enter flowing bottomhole pressure (in bar): ")
         Q = st.number_input("Enter rate (in km3/d): ")
+        data.append((date, comment, Pws, Pwf, Q))
 
-        test_data.append((date, comment, Pwf, Q))
-
-        add_more = st.form_submit_button("Add More Data") # Button to add more test data
-        if not add_more:
+        # Add another test data?
+        another = st.radio("Do you want to enter another data point?", ('Yes', 'No'))
+        if another == 'No':
             break
 
-    # Show submitted test data
-    st.write("Submitted Test Data:")
-    for data in test_data:
-        st.write("Date: ", data[0], "Comment: ", data[1], "BHFP (bar)", data[2], "Rate (km3/d): ", data[3])
+    # Print data as a table
+    st.write("\nInput Data:")
+    headers = ["Date", "Comment", "Pws (bar)", "Pwf (bar)", "Rate (km3/d)"]
+    st.write(tabulate(data, headers=headers, tablefmt="grid"))
+    return data
 
-   
-# Calculate IPR
-if st.button("Calculate IPR for test data"):
-    Q_data = np.array([d[3] for d in test_data])  # Extracting rate data
-    P_data = np.array([d[2] for d in test_data])  # Extracting Pwf data
+# Collect test data
+data = collect_data()
 
-    initial_guess = [3.75e-9, 4.17e-4]  # Initial guess for the parameters a, b, and c
-    bounds = ([0, 0], [np.inf, np.inf])  # Bounds for the parameters
+# Convert rate from km3/d to Sm3/day
+for i in range(len(data)):
+    data[i] = (data[i][0], data[i][1], data[i][2], data[i][3], data[i][4] * 1e3)
 
-    # Perform curve fitting
-    params, _ = curve_fit(curve_IPR, Q_data, P_data, p0=initial_guess, bounds=bounds)
-    a_fit, b_fit = params
+Pws = data[0][2]
 
-    st.header("Fitted Parameters:")
-    st.write(f"a: {a_fit} bar2/(Sm3/day)2")
-    st.write(f"b: {b_fit} bar2/(Sm3/day)") 
+# For Pws
+data2 = [(Pws,0)]
 
-    # AOF Calculation
-    discriminant = b_fit ** 2 + 4 * a_fit * Pws ** 2
-    if discriminant >= 0:
-        AOF = (-b_fit + np.sqrt(discriminant)) / (2 * a_fit)
-        st.write(f"AOF: {AOF/1000} km3/d")
-    else:
-        st.write("No real roots exist.")
+# Convert data into arrays
+Q_data = np.array([d[4] for d in data]+[d[1] for d in data2])
+P_data = np.array([d[3] for d in data]+[d[0] for d in data2])
 
-    # Plotting
-    Q_range = np.linspace(0, AOF, 500)
-    Pwf_fit = curve_IPR(Q_range, a_fit, b_fit)  
+# Perform curve fitting
+initial_guess = [3.75e-9, 4.17e-4]  # Initial guess for the parameters a, b, and c
+bounds = ([0, 0], [np.inf, np.inf])  # Bounds for the parameters
+params, _ = curve_fit(curve_IPR, Q_data,P_data,p0=initial_guess, bounds=bounds)
+a_fit, b_fit = params
 
-    plt.figure()
-    plt.scatter(Q_data, P_data, color='red', label='Test Data')
-    plt.plot(Q_range, Pwf_fit, color='blue', label='Fitted Curve')
-    plt.xlabel('Rate (km3/d)')
-    plt.ylabel('Pressure (bar)')
-    plt.title('Pressure vs Rate')
-    plt.legend()
-    st.pyplot(plt)
+st.write("\n\nFitted Parameters:")
+st.write(f"a: {a_fit} bar2/(Sm3/day)2")
+st.write(f"b: {b_fit} bar2/(Sm3/day)")
+st.write(f"Reservoir Pressure: {Pws} bar")
+
+# AOF Calculation
+# Bhaskara’s formula to find positive root
+discriminant = b_fit ** 2 + 4 * a_fit * Pws ** 2
+if discriminant >= 0:
+    AOF = (-b_fit + np.sqrt(discriminant)) / (2 * a_fit)
+    st.write(f"AOF: {AOF/1000} km3/d")
+else:
+    st.write("No real roots exist.")
+
+# Range of points for extrapolation of the curve
+Q_range = np.linspace(0, AOF, 500)
+Pwf_fit = curve_IPR(Q_range, a_fit, b_fit)
+
+# Test points
+plt.scatter(Q_data / 1000, P_data, color='red', label='Reservoir Pressure and Test Data ')
+# Fitted curve
+plt.plot(Q_range / 1000, Pwf_fit, color='blue', label='Fitted Curve')
+
+# Set the limits for both x and y axes
+plt.xlim(0, plt.xlim()[1])  # x-axis minimum to 0
+plt.ylim(0, plt.ylim()[1])  # y-axis minimum to 0
+
+plt.xlabel('Rate (km$^3$/ d)')
+plt.ylabel('Pressure (bar)')
+plt.title('Pressure vs Rate')
+plt.legend()
+plt.grid(True)
+st.pyplot(plt)
