@@ -57,7 +57,7 @@ st.write(f"Reservoir Pressure: {Pws} bar")
 discriminant = b_fit ** 2 + 4 * a_fit * Pws ** 2
 if discriminant >= 0:
     AOF = (-b_fit + np.sqrt(discriminant)) / (2 * a_fit)
-    st.write(f"AOF: {AOF/1000:.2f} km3/d")
+    st.write(f"AOF: {AOF:.2f} km3/d")
 else:
     st.write("No real roots exist.")
 
