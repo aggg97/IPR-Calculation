@@ -55,21 +55,12 @@ def calculate_IPR(data, Pws):
     plt.grid(True)
     st.pyplot(plt)
 
-# Collect first test data
-st.write("Enter reservoir pressure:")
-Pws = st.number_input("Pressure (bar)")
-
+# Collect data
 data = []
-st.write("Enter test data:")
-date = st.text_input("Date:")
-comment = st.text_input("Comment:")
-Pwf = st.number_input("Flowing bottomhole pressure (bar):")
-Q = st.number_input("Rate (km3/d):")
-data.append((date, comment, Pwf, Q))
+Pws = st.number_input("Enter reservoir pressure (in bar): ")
 
-# Option to add more data
-add_more_data = st.button("Add More Data")
-while add_more_data:
+# Function to add more data
+def add_more_data():
     st.write("Enter test data:")
     date = st.text_input("Date:")
     comment = st.text_input("Comment:")
@@ -77,7 +68,12 @@ while add_more_data:
     Q = st.number_input("Rate (km3/d):")
     data.append((date, comment, Pwf, Q))
 
-    add_more_data = st.button("Add More Data")
+# Load initial test data
+add_more_data()
+
+# Option to add more data
+if st.button("Add More Data"):
+    add_more_data()
 
 # Perform calculations
 if st.button("Calculate IPR"):
