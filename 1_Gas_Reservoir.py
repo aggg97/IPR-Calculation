@@ -25,6 +25,7 @@ $Pwf=\sqrt{Pws ^2-a \cdot Q^2 -b \cdot Q }$
 ''')
 
 st.markdown(forcheimer)
+st.divider()
 
 # Definition of the quadratic curve equation (Inflow Performance Relationship - IPR)
 def curve_IPR(Q, a, b):
@@ -33,7 +34,7 @@ def curve_IPR(Q, a, b):
 Pws = st.number_input("Reservoir Pressure (Pws) (bar)")
 # Function to collect input data
 def collect_data():
-    st.subheader("Input Test Data")
+    st.header("Input Test Data")
     rows = st.number_input("Number of Test Data", min_value=1, value=1)
 
 
