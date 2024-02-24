@@ -31,7 +31,7 @@ st.divider()
 def curve_IPR(Q, a, b):
     return np.sqrt(-a * Q ** 2 - b * Q + Pws**2)
 
-Pws = st.number_input("Reservoir Pressure (Pws) (bar)")
+Pws = st.number_input("Reservoir Pressure (bar)")
 # Function to collect input data
 def collect_data():
     st.header("Input Test Data")
