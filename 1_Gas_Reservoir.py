@@ -53,7 +53,7 @@ def collect_data():
     return Pws, data
 
 def main():
-    st.subheader("IPR Curve Fitting")
+
 
     # Load test data
     Pws, data = collect_data()
