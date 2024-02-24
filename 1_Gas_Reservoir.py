@@ -1,4 +1,4 @@
-import streamlit as st
+    import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
@@ -56,15 +56,16 @@ def main():
             
             st.write("Fitted Parameters:")
             col1, col2, col3 = st.columns(3)
-            col1.metric(f"a: {a_fit:2e} bar2/(Sm3/day)2")
-            col2.metric(f"a: {a_fit:2e} bar2/(Sm3/day)2")
+            col1.metric(label=f":red[a)]", value=f"{a_fit:.2e}")
+            col2.metric(label=f":green[b]", value=f"{a_fit:.2e}")
+
 
             # AOF Calculation
             # Bhaskara’s formula to find positive root
             discriminant = b_fit ** 2 + 4 * a_fit * Pws ** 2
             if discriminant >= 0:
                 AOF = (-b_fit + np.sqrt(discriminant)) / (2 * a_fit)
-                col3.metric(f"AOF: {AOF/1000:.2f} km3/d")
+                col2.metric(label=f":green[AOF (km3/d)]",value=f"{AOF/1000:.2e}")
             else:
                 st.write("No real roots exist.")
             
