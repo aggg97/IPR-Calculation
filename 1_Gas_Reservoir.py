@@ -42,7 +42,7 @@ def collect_data():
     data = []
 
     for i in range(rows):
-        st.write(f":blue[### Test Data ]{i+1}")
+        st.write(f":blue[### Test Data {i+1}]")
         date = st.date_input("Date", key=f"date_{i}")
         comment = st.text_input("Comment", key=f"comment_{i}")
         Pwf = st.number_input("Flowing Bottomhole Pressure (bar)", key=f"Pwf_{i}")
