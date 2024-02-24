@@ -4,6 +4,26 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from tabulate import tabulate
 
+st.header("Forcheimer Reservoir Model: ")
+
+forcheimer = ('''The Forcheimer equation expresses the inflow performance in terms of turbulent and non-turbulent pressure drop coefficients expressed as:
+
+*   "a"         the turbulent pressure drop (Non-Darcy Coefficient )
+*   "b"         the laminar pressure drop (Non-Darcy Coefficient)
+
+To represent the IPR in a Pressure vs Rate plot then,
+
+$\Delta P^2 = Pws ^2- Pwf^2 = a \cdot Q^2 + b \cdot Q $
+
+$a \cdot Q^2 + b \cdot Q  - (Pws ^2- Pwf^2 ) = 0$
+
+$a \cdot Q^2 + b \cdot Q  - Pws ^2 + Pwf^2 =0 $
+
+$Pwf=\sqrt{Pws ^2-a \cdot Q^2 -b \cdot Q }$
+''')
+
+st.markdown(forcheimer)
+
 # Definition of the quadratic curve equation (Inflow Performance Relationship - IPR)
 def curve_IPR(Q, a, b):
     return np.sqrt(-a * Q ** 2 - b * Q + Pws**2)
@@ -55,9 +75,10 @@ def main():
             a_fit, b_fit = params
             
             st.write("Fitted Parameters:")
-            col1, col2, col3 = st.columns(3)
-            col1.metric(label=f":red[a)]", value=f"{a_fit:.2e}")
-            col2.metric(label=f":green[b]", value=f"{a_fit:.2e}")
+            col1, col2 = st.columns(2)
+            col1.metric(label=f":red[a bar2/(Sm3/day)2]", value=f"{a_fit:.2e}")
+            col1.metric(label=f":green[b bar2/Sm3/day]", value=f"{a_fit:.2e}")
+            col2.metric(label=f":black[Reservoir Pressure (bar)]", value=f"{Pws.2f}")
 
 
             # AOF Calculation
@@ -65,7 +86,7 @@ def main():
             discriminant = b_fit ** 2 + 4 * a_fit * Pws ** 2
             if discriminant >= 0:
                 AOF = (-b_fit + np.sqrt(discriminant)) / (2 * a_fit)
-                col2.metric(label=f":green[AOF (km3/d)]",value=f"{AOF/1000:.2e}")
+                col2.metric(label=f":blue[AOF (km3/d)]",value=f"{AOF/1000:.2f}")
             else:
                 st.write("No real roots exist.")
             
