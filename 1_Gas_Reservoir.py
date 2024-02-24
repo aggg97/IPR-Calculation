@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from tabulate import tabulate
 
+st.title("Inflow Performance Curve (IPR) Calculation")
+
 st.header("Forcheimer Reservoir Model: ")
 
 forcheimer = ('''The Forcheimer equation expresses the inflow performance in terms of turbulent and non-turbulent pressure drop coefficients expressed as:
@@ -50,7 +52,7 @@ def collect_data():
     return Pws, data
 
 def main():
-    st.title("IPR Curve Fitting")
+    st.subheader("IPR Curve Fitting")
 
     # Load test data
     Pws, data = collect_data()
