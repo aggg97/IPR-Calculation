@@ -78,7 +78,7 @@ def main():
             col1, col2 = st.columns(2)
             col1.metric(label=f":red[a bar2/(Sm3/day)2]", value=f"{a_fit:.2e}")
             col1.metric(label=f":green[b bar2/Sm3/day]", value=f"{a_fit:.2e}")
-            col2.metric(label=f":black[Reservoir Pressure (bar)]", value=f"{Pws.2f}")
+            col2.metric(label=f":black[Reservoir Pressure (bar)]", value=f"{Pws:.2f}")
 
 
             # AOF Calculation
