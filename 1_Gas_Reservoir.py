@@ -74,7 +74,7 @@ def main():
             params, _ = curve_fit(curve_IPR, Q_data, P_data, p0=initial_guess, bounds=bounds)
             a_fit, b_fit = params
             
-            st.write("Fitted Parameters:")
+            st.header("Fitted Parameters:")
             col1, col2 = st.columns(2)
             col1.metric(label=f":red[a (bar2/(Sm3/day)2)]", value=f"{a_fit:.2e}")
             col1.metric(label=f":green[b (bar2/Sm3/day)]", value=f"{a_fit:.2e}")
