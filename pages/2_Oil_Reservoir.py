@@ -9,15 +9,13 @@ st.title("Inflow Performance Curve (IPR) Calculation")
 st.header("Vogel Reservoir Model:")
 
 vogel_info = """
-The Vogel equation expresses the inflow performance relationship (IPR) in terms of the Vogel's equation:
+## Vogel Reservoir Model
 
-$$Q = Q_{max} \cdot \left(1 - 0.2 \cdot \left(\frac{Pwf}{Pws}\right) - 0.8 \cdot \left(\frac{Pwf}{Pws}\right)^2\right)$$
+Vogel's IPR cuadratic equation is defined as:
 
-Where:
-- $Q$: Flow rate (Sm3/d)
-- $Q_{max}$: Maximum flow rate (Sm3/d)
-- $Pwf$: Flowing bottomhole pressure (bar)
-- $Pws$: Reservoir pressure (bar)
+$\frac{Q}{AOF}= 1-0.2\frac{Pwf}{Pws}-0.8(\frac{Pwf}{Pws})^{2}$
+
+$Q= AOF*[1-0.2\frac{Pwf}{Pws}-0.8(\frac{Pwf}{Pws})^{2}]$
 """
 
 st.markdown(vogel_info)
@@ -106,3 +104,19 @@ def curve_IPR_Vogel(Pwf, Pws, Qmax):
 
 if __name__ == "__main__":
     main()
+
+st.divider()
+error=("""**Error function to minimize by solver during curve fitting:
+$ ∑ [ln(AOF*[1-0.2\frac{Pwf}{Pws}-0.8(\frac{Pwf}{Pws})^{2}]) -  ln( Q)]^2\cdot 1000 $**
+
+*NOTE: By taking the logarithm of the difference between the model prediction and the test data,
+we can effectively handle a wide range of values and mitigate the influence of outliers.
+Squaring the differences ensures that all values are positive, 
+facilitating optimization algorithms to converge efficiently. 
+Additionally, multiplying the squared differences
+by a large number amplifies their impact during optimization, 
+improving the precision of the solver and enabling finer adjustments to the model parameters.*""")
+
+st.markdown(error)
+
+st.divider()
