@@ -129,5 +129,7 @@ their impact during optimization, improving the precision of the solver and enab
 st.divider()
 st.markdown(error)
 st.divider()
-st.sidebar()
+st.sidebar.title("Reservoir Pressure Sensitivity")
+
+
 
