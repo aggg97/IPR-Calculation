@@ -77,22 +77,23 @@ def main():
         Pwf_range = np.linspace(0, min(np.max(data["Pwf (bar)"]), Pws), 500)
         Qmax_curve_fit =curve_IPR_Vogel(Pwf_range, Pws, Qmax_fit)
         
-       # Plot
+        # Plot
         st.subheader("IPR Plot")
         fig, ax = plt.subplots()
-        ax.scatter((data["Rate (m3/d)"], data["Pwf (bar)"], color='red', label='Test Data')
+        ax.scatter(data["Rate (m3/d)"], data["Pwf (bar)"], color='red', label='Pres and Test Data') # corrected scatter plot arguments
         ax.plot(Qmax_curve_fit, Pwf_range, color='blue', label='IPR (Fitted Curve)')
         ax.set_xlabel('Rate (m$^3$/ d)')
         ax.set_ylabel('Pressure (bar)')
         ax.set_title('Pressure vs Rate')
         ax.legend()
         ax.grid(True)
-
+        
         # Set the limits of the axes to ensure the plot starts at (0, 0)
-        ax.set_xlim(left=0, auto=True)
-        ax.set_ylim(bottom=0, auto=True)
-
+        ax.set_xlim(left=0)  # Setting only the left limit to 0
+        ax.set_ylim(bottom=0) # Setting only the bottom limit to 0
+        
         st.pyplot(fig)
+
 
 if __name__ == "__main__":
     main()
@@ -109,4 +110,4 @@ to converge efficiently. Additionally, multiplying the squared differences by a 
 improving the precision of the solver and enabling finer adjustments to the model parameters*''')
 
 st.divider()
-
+st.set_option('depreciation.showPyplotGlobalUse',False)
