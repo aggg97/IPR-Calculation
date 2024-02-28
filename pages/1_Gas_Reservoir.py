@@ -135,3 +135,41 @@ improving the precision of the solver and enabling finer adjustments to the mode
 st.divider()
 
 st.sidebar.title("Reservoir Pressure Sensitivity")
+
+# Collect new reservoir pressure
+Pws_new = st.sidebar.number_input("Enter new reservoir pressure (in bar) to model IPR evolution: ", value=0.0)
+
+# Fetkovich Method
+n = 0.5
+
+def calculate_AOF_new(AOF_or, Pws_or, Pws_new, n):
+    AOF_new = AOF_or * (Pws_new / Pws_or) ** (2 * n)
+    return AOF_new
+
+# Future IPR
+def curve_IPR_future(Q, a, b, Pws_new):
+    return np.sqrt(-a * Q ** 2 - b * Q + Pws_new ** 2)
+
+# Calculate new AOF
+AOF_new = calculate_AOF_new(AOF, Pws, Pws_new, n)
+st.write(f"AOF: {AOF_new / 1000} km3/d when Reservoir Pressure = {Pws_new} bar")
+
+# Range of points for extrapolation of the future curve
+Q_range = np.linspace(0, AOF_new, 500)
+Pwf_fit_new = curve_IPR_future(Q_range, a_fit, b_fit, Pws_new)
+
+# Plot
+st.subheader("Future IPR Plot")
+fig, ax = plt.subplots()
+ax.scatter(data["Rate (Sm3/d)"] / 1000, data["Pwf (bar)"], color='red', label='Test Data ')
+ax.plot(Q_range / 1000, Pwf_fit, color='blue', label='IPR (Fitted Curve)')
+ax.plot(Q_range / 1000, Pwf_fit_new, color='green', linestyle='--', label='Future IPR')
+ax.set_xlabel('Rate (km$^3$/ d)')
+ax.set_ylabel('Pressure (bar)')
+ax.set_title('Pressure vs Rate')
+ax.legend()
+ax.grid(True)
+ax.set_xlim(0, ax.get_xlim()[1])
+ax.set_ylim(0, ax.get_ylim()[1])
+
+st.pyplot(fig)
