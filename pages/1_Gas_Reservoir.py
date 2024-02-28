@@ -134,7 +134,7 @@ improving the precision of the solver and enabling finer adjustments to the mode
 
 st.divider()
 
-st.subtitle("Reservoir Pressure Sensitivity")
+st.subheader("Reservoir Pressure Sensitivity")
 
 # Collect new reservoir pressure
 Pws_new = st.number_input("Enter new reservoir pressure (in bar) to model IPR evolution: ", value=0.0)
