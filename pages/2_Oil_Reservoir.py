@@ -25,6 +25,7 @@ def collect_data():
 
     # Create an empty list to store input values
     data = []
+    Pws = float(input("Enter reservoir pressure (in bar): "))
 
     for i in range(rows):
         st.write(f"### Test Data {i+1}")
@@ -33,7 +34,7 @@ def collect_data():
         Pwf = st.number_input("Flowing Bottomhole Pressure (bar)", key=f"Pwf_{i}")
         Q = st.number_input("Rate (km3/d)", key=f"Q_{i}")
 
-        data.append((date, comment, Pwf, Q))
+        data.append((date, comment, Pws, Pwf, Q))
 
     return data
 
@@ -43,13 +44,13 @@ def main():
 
     if data:
         # Convert data into DataFrame
-        data_df = pd.DataFrame(data, columns=["Date", "Comment", "Pwf (bar)", "Rate (km3/d)"])
+        data_df = pd.DataFrame(data, columns=["Date", "Comment", "Pws (bar)", "Pwf (bar)", "Rate (km3/d)"])
 
         # Extract Pws
-        Pws = data_df.loc[0, "Pwf (bar)"]
+        Pws = data_df.loc[0, "Pws (bar)"]
 
         # Add a data point where rate q = 0 and Pwf = Pws
-        new_row = {'Date': 'Initial', 'Comment': 'Initial condition', 'Pwf (bar)': Pws, 'Rate (km3/d)': 0}
+        new_row = {'Date': 'Initial', 'Comment': 'Initial condition', 'Pws (bar)': Pws, 'Rate (km3/d)': 0}
         data_df = data_df.append(new_row, ignore_index=True)
 
         # Error function to minimize
