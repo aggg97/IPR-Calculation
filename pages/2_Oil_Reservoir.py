@@ -26,7 +26,7 @@ def collect_data():
 
     # Create an empty list to store input values
     data = []
-    Pws = float(input("Enter reservoir pressure (in bar): "))
+    Pws = st.number_input("Reservoir pressure (in bar)", value=0.0)
 
     for i in range(rows):
         st.write(f"### Test Data {i+1}")
@@ -35,57 +35,51 @@ def collect_data():
         Pwf = st.number_input("Flowing Bottomhole Pressure (bar)", key=f"Pwf_{i}")
         Q = st.number_input("Rate (km3/d)", key=f"Q_{i}")
 
-        data.append((date, comment, Pws, Pwf, Q))
+        data.append([date, comment, Pws, Pwf, Q])
 
-    return data
+    return pd.DataFrame(data, columns=["Date", "Comment", "Pws (bar)", "Pwf (bar)", "Rate (km3/d)"])
 
 def main():
     # Load test data
     data = collect_data()
 
-    if data:
-        # Convert data into DataFrame
-        data_df = pd.DataFrame(data, columns=["Date", "Comment", "Pws (bar)", "Pwf (bar)", "Rate (km3/d)"])
-
+    if not data.empty:
         # Extract Pws
-        Pws = data_df.loc[0, "Pws (bar)"]
+        Pws = data.loc[0, "Pws (bar)"]
 
         # Add a data point where rate q = 0 and Pwf = Pws
-        new_row = {'Date': 'Initial', 'Comment': 'Initial condition', 'Pws (bar)': Pws, 'Rate (km3/d)': 0}
-        data_df = data_df.append(new_row, ignore_index=True)
+        new_row = {'Date': 'Initial', 'Comment': 'Initial condition', 'Pws (bar)': Pws, 'Pwf (bar)': Pws, 'Rate (km3/d)': 0}
+        data = data.append(new_row, ignore_index=True)
 
         # Error function to minimize
         def error_function(Qmax, Pwf, Q, Pws):
-            predicted_Q = curve_IPR_Vogel(Pwf, Pws, Qmax)
+            predicted_Q = Qmax * (1 - 0.2 * (Pwf / Pws) - 0.8 * (Pwf / Pws) ** 2)
             errors = np.log(predicted_Q) - np.log(Q)
             squared_errors = np.sum(errors ** 2)
             scaled_squared_errors = squared_errors * 1000
             return scaled_squared_errors
 
         # Perform optimization
-        initial_guess = 100  # Initial guess for Qmax
+        initial_guess = [100]  # Initial guess for Qmax
         bounds = [(0, np.inf)]  # Define bounds for Qmax
-        result = minimize(error_function, initial_guess, args=(data_df["Pwf (bar)"], data_df["Rate (km3/d)"], Pws), bounds=bounds)
+        result = minimize(error_function, initial_guess, args=(data["Pwf (bar)"], data["Rate (km3/d)"], Pws), bounds=bounds)
 
         # Extract optimized parameter
         Qmax_fit = result.x[0]
 
-        st.header("Fitted Parameters:")
-        st.metric(label="Qmax (Sm3/d)", value=f"{Qmax_fit:.2f}")
+        st.header("Optimized Qmax:")
+        st.write(Qmax_fit)
 
         # Generate curve points for plotting
-        Pwf_range = np.linspace(0, min(np.max(data_df["Pwf (bar)"]), Pws), 500)
-        Qmax_curve_fit = curve_IPR_Vogel(Pwf_range, Pws, Qmax_fit)
+        Pwf_range = np.linspace(0, min(np.max(data["Pwf (bar)"]), Pws), 500)
+        Qmax_curve_fit = Qmax_fit * (1 - 0.2 * (Pwf_range / Pws) - 0.8 * (Pwf_range / Pws) ** 2)
 
         # Plot test points
-        plt.scatter(data_df["Rate (km3/d)"], data_df["Pwf (bar)"], color='red', label='Test Data')
+        st.subheader(IPR Plot")
+        plt.scatter(data["Rate (km3/d)"], data["Pwf (bar)"], color='red', label='Test Data')
 
         # Plot fitted curve
         plt.plot(Qmax_curve_fit, Pwf_range, color='blue', label='IPR (Fitted Curve)')
-
-        # Set the limits for both x and y axes
-        plt.xlim(0, plt.xlim()[1])
-        plt.ylim(0, plt.ylim()[1])
 
         plt.xlabel('Rate (km$^3$/d)')
         plt.ylabel('Pressure (bar)')
@@ -95,15 +89,9 @@ def main():
 
         st.pyplot()
 
-    else:
-        st.write("No data provided.")
-
-def curve_IPR_Vogel(Pwf, Pws, Qmax):
-    return Qmax * (1 - 0.2 * (Pwf / Pws) - 0.8 * (Pwf / Pws) ** 2)
-
 if __name__ == "__main__":
     main()
-
+    
 st.divider()
 st.write("Error function to minimize by solver during curve fitting:")
 
