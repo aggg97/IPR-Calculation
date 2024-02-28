@@ -13,18 +13,19 @@ forcheimer = ('''The Forcheimer equation expresses the inflow performance in ter
 *   "a"         the turbulent pressure drop (Non-Darcy Coefficient )
 *   "b"         the laminar pressure drop (Non-Darcy Coefficient)
 
-To represent the IPR in a Pressure vs Rate plot then,
-
-$\Delta P^2 = Pws ^2- Pwf^2 = a \cdot Q^2 + b \cdot Q $
-
-$a \cdot Q^2 + b \cdot Q  - (Pws ^2- Pwf^2 ) = 0$
-
-$a \cdot Q^2 + b \cdot Q  - Pws ^2 + Pwf^2 =0 $
-
-$Pwf=\sqrt{Pws ^2-a \cdot Q^2 -b \cdot Q }$
-''')
+To represent the IPR in a Pressure vs Rate plot then, '''')
 
 st.markdown(forcheimer)
+ 
+st.latex(r'''\Delta P^2 = Pws ^2- Pwf^2 = a \cdot Q^2 + b \cdot Q ''')
+
+st.latex(r'''a \cdot Q^2 + b \cdot Q  - (Pws ^2- Pwf^2 ) = 0''')
+
+st.latex(r'''a \cdot Q^2 + b \cdot Q  - Pws ^2 + Pwf^2 =0 ''')
+
+st.latex(r'''Pwf=\sqrt{Pws ^2-a \cdot Q^2 -b \cdot Q }''')
+
+
 st.divider()
 
 # Definition of the quadratic curve equation (Inflow Performance Relationship - IPR)
