@@ -63,7 +63,7 @@ def main():
 
         # Extract Pwf and Q data
         Pwf_data = data["Pwf (bar)"]
-        Q_data = data["Rate (km3/d)"]
+        Q_data = data["Rate (m3/d)"]
 
         # Define error function to minimize
         def error_function(params):
@@ -91,7 +91,7 @@ def main():
         discriminant = b_fit ** 2 + 4 * a_fit * Pws_fit ** 2
         if discriminant >= 0:
             AOF = (-b_fit + np.sqrt(discriminant)) / (2 * a_fit)
-            col2.metric(label=f":blue[AOF (km3/d)]", value=f"{AOF:.2f}")
+            col2.metric(label=f":blue[AOF (km3/d)]", value=f"{AOF/1000:.2f}")
         else:
             st.write("No real roots exist.")
 
@@ -102,8 +102,8 @@ def main():
         # Plot
         st.subheader("IPR Plot")
         fig, ax = plt.subplots()
-        ax.scatter(Q_data, Pwf_data, color='red', label='Test Data')
-        ax.plot(Q_range, Pwf_fit, color='blue', label='IPR (Fitted Curve)')
+        ax.scatter(Q_data/1000, Pwf_data, color='red', label='Test Data')
+        ax.plot(Q_range/1000, Pwf_fit, color='blue', label='IPR (Fitted Curve)')
         ax.set_xlabel('Rate (km$^3$/ d)')
         ax.set_ylabel('Pressure (bar)')
         ax.set_title('Pressure vs Rate')
@@ -123,7 +123,7 @@ def main():
         
         # Fetkovich Method
         n = 0.5
-        AOF_or=AOF
+        AOF_or=AOF/1000
         Pws_or=Pws
         
         def calculate_AOF_new(AOF_or, Pws_or, Pws_new, n):
