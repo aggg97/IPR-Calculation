@@ -9,15 +9,17 @@ st.title("Oil Reservoir")
 st.header("Vogel Reservoir Model:")
 
 vogel_info = ('''
-Vogel's IPR quadratic equation is defined as:
+Vogel's IPR quadratic equation is defined as:''')
 
-$\frac{Q}{AOF}= 1-0.2\frac{Pwf}{Pws}-0.8\left(\frac{Pwf}{Pws}\right)^{2}$
+st.markdown(vogel_info)
+
+st.latex( r''' $\frac{Q}{AOF}= 1-0.2\frac{Pwf}{Pws}-0.8\left(\frac{Pwf}{Pws}\right)^{2}$
 
 $Q= AOF \cdot \left[1-0.2\frac{Pwf}{Pws}-0.8\left(\frac{Pwf}{Pws}\right)^{2}\right]$
 
 ''')
 
-st.markdown(vogel_info)
+
 
 st.divider()
 
