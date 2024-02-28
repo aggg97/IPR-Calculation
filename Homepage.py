@@ -8,7 +8,7 @@ fitting the Inflow Performance Relationship curve to the data.''')
 
 st.markdown(intro)
 
-col1, col2= st.columns(3)
+col1, col2= st.columns(2)
 
 with col1:
 st.page_link("pages/1_Gas_Reservoir.py",color=red, label="Gas Reservoir")
