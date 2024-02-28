@@ -48,9 +48,9 @@ def collect_data():
         Pwf = st.number_input("Flowing Bottomhole Pressure (bar)", key=f"Pwf_{i}")
         Q = st.number_input("Rate (km3/d)", key=f"Q_{i}")
 
-        data.append([date, comment, Pws, Pwf, Q*1000])
+        data.append([date, comment, Pws, Pwf, Q])
 
-    return pd.DataFrame(data, columns=["Date", "Comment", "Pws (bar)", "Pwf (bar)", "Rate (m3/d)"])
+    return pd.DataFrame(data, columns=["Date", "Comment", "Pws (bar)", "Pwf (bar)", "Rate (km3/d)"])
 
 def main():
     # Load test data
@@ -62,9 +62,7 @@ def main():
 
         # Extract Pwf and Q data
         Pwf_data = data["Pwf (bar)"]
-        Q_data = data["Rate (m3/d)"]
-   
-        st.write(Q_data)
+        Q_data = data["Rate (km3/d)"]
 
         # Define error function to minimize
         def error_function(params):
@@ -84,8 +82,8 @@ def main():
 
         st.header("Fitted Parameters:")
         col1, col2 = st.columns(2)
-        col1.metric(label=f":red[a (bar2/(Sm3/day)2)]", value=f"{a_fit:.2e}")
-        col1.metric(label=f":green[b (bar2/Sm3/day)]", value=f"{b_fit:.2e}")
+        col1.metric(label=f":red[a (bar2/(Sm3/day)2)]", value=f"{a_fit/1e-3:.2e}")
+        col1.metric(label=f":green[b (bar2/Sm3/day)]", value=f"{b_fit/1e-6:.2e}")
         col2.metric(label=f":black[Reservoir Pressure (bar)]", value=f"{Pws_fit:.2f}")
 
         # AOF Calculation
@@ -98,13 +96,13 @@ def main():
 
         # Range of points for extrapolation of the curve
         Q_range = np.linspace(0, AOF/1000, 500)
-        Pwf_fit = curve_IPR(Q_range, [a_fit, b_fit, Pws_fit])
+        Pwf_fit = curve_IPR(Q_range/1000, [a_fit, b_fit, Pws_fit])
 
         # Plot
         st.subheader("IPR Plot")
         fig, ax = plt.subplots()
         ax.scatter(Q_data/1000, Pwf_data, color='red', label='Test Data')
-        ax.plot(Q_range, Pwf_fit, color='blue', label='IPR (Fitted Curve)')
+        ax.plot(Q_range/1000, Pwf_fit, color='blue', label='IPR (Fitted Curve)')
         ax.set_xlabel('Rate (km$^3$/ d)')
         ax.set_ylabel('Pressure (bar)')
         ax.set_title('Pressure vs Rate')
