@@ -9,9 +9,8 @@ st.markdown(intro)
 
 col1, col2 = st.columns(2)
 
+with col1:
+    st.markdown('<a href="pages/1_Gas_Reservoir.py" style="color:red">Gas Reservoir</a>', unsafe_allow_html=True)
 
-
-    st.page_link("pages/1_Gas_Reservoir.py", label="Gas Reservoir", class_name="red-text")
-
-
-    st.page_link("pages/2_Oil_Reservoir.py", label="Oil Reservoir", class_name="green-text")
+with col2:
+    st.markdown('<a href="pages/2_Oil_Reservoir.py" style="color:green">Oil Reservoir</a>', unsafe_allow_html=True)
