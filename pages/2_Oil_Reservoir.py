@@ -126,6 +126,8 @@ def main():
         
         Pws_new = st.number_input("Enter new reservoir pressure (in bar) to model IPR evolution", value=0.0)
         n = st.slider("Enter value for n", min_value=0.1, max_value=1.0, value=0.5)
+        Pws_or = Pws
+        AOF_or=Qmax_fit
         
         def calculate_AOF_new(AOF_or, Pws_or, Pws_new, n):
             AOF_new = AOF_or * (Pws_new / Pws_or) ** (2 * n + 1)
@@ -140,7 +142,7 @@ def main():
         
         # Range of points for extrapolation of the curve
         Pwf_range = np.linspace(0, 500, 500)  # Adjust the range as needed
-        Qmax_curve_fit = curve_IPR_Vogel(Pwf_range, Pws, Qmax_fit)
+        Qmax_curve_fit = curve_IPR_Vogel(Pwf_range, Pws, AOF_or)
         Qmax_curve_fit_new = curve_IPR_Vogel_new(Pwf_range, Pws_new, AOF_new)
         
         # Plot
@@ -160,8 +162,6 @@ def main():
         ax.set_ylim(bottom=0)
         
         st.pyplot(fig)
-
-
 
 
 if __name__ == "__main__":
