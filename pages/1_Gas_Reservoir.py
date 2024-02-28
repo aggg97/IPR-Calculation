@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize
 from tabulate import tabulate
+import pandas as pd
 
 st.title("Gas Reservoir")
 
@@ -15,7 +16,6 @@ forcheimer = ('The Forcheimer equation expresses the inflow performance in terms
 
 st.markdown(forcheimer)
 
-
 st.latex(r'''\Delta P^2 = Pws ^2- Pwf^2 = a \cdot Q^2 + b \cdot Q ''')
 
 st.latex(r'''a \cdot Q^2 + b \cdot Q  - (Pws ^2- Pwf^2 ) = 0''')
@@ -23,7 +23,6 @@ st.latex(r'''a \cdot Q^2 + b \cdot Q  - (Pws ^2- Pwf^2 ) = 0''')
 st.latex(r'''a \cdot Q^2 + b \cdot Q  - Pws ^2 + Pwf^2 =0 ''')
 
 st.latex(r'''Pwf=\sqrt{Pws ^2-a \cdot Q^2 -b \cdot Q }''')
-
 
 st.divider()
 
@@ -39,6 +38,7 @@ def collect_data():
 
     # Create an empty list to store input values
     data = []
+    Pws = st.number_input("Reservoir pressure (in bar)", value=0.0)
 
     for i in range(rows):
         st.write(f"### Test Data {i+1}")
@@ -47,17 +47,21 @@ def collect_data():
         Pwf = st.number_input("Flowing Bottomhole Pressure (bar)", key=f"Pwf_{i}")
         Q = st.number_input("Rate (km3/d)", key=f"Q_{i}")
 
-        data.append([date, comment, Pwf, Q])
+        data.append([date, comment, Pws, Pwf, Q])
 
-    return data
+    return pd.DataFrame(data, columns=["Date", "Comment", "Pws (bar)", "Pwf (bar)", "Rate (km3/d)"])
 
 def main():
     # Load test data
     data = collect_data()
 
-    if data:
+    if not data.empty:
         # Extract Pws
-        Pws = data[0][2]
+        Pws = data.loc[0, "Pws (bar)"]
+
+        # Extract Pwf and Q data
+        Pwf_data = data["Pwf (bar)"]
+        Q_data = data["Rate (km3/d)"]
 
         # Define error function to minimize
         def error_function(params):
@@ -66,10 +70,6 @@ def main():
             squared_errors = np.sum(errors ** 2)
             scaled_squared_errors = squared_errors * 1000
             return scaled_squared_errors
-
-        # Extract Pwf and Q data
-        Pwf_data = np.array([d[2] for d in data])
-        Q_data = np.array([d[3] for d in data])
 
         # Perform optimization
         initial_guess = [3.75e-9, 4.17e-4, Pws]
@@ -120,7 +120,6 @@ def main():
 if __name__ == "__main__":
     main()
 
-
 st.divider()
 st.write("Error function to minimize by solver during curve fitting: ")
 
@@ -135,5 +134,3 @@ improving the precision of the solver and enabling finer adjustments to the mode
 st.divider()
 
 st.sidebar.title("Reservoir Pressure Sensitivity")
-
-
