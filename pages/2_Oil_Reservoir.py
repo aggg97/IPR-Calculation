@@ -56,17 +56,19 @@ def main():
         data = data.append(new_row, ignore_index=True)
 
         # Error function to minimize
-        def error_function(Qmax, Pwf, Q, Pws):
-            predicted_Q = Qmax * (1 - 0.2 * (Pwf / Pws) - 0.8 * (Pwf / Pws) ** 2)
+        def error_function(params, Pwf, Q, Pws):
+            Qmax = params[0]
+            predicted_Q = curve_IPR_Vogel(Pwf, Pws, Qmax)
             errors = np.log(predicted_Q) - np.log(Q)
             squared_errors = np.sum(errors ** 2)
             scaled_squared_errors = squared_errors * 1000
             return scaled_squared_errors
-
+        
         # Perform optimization
-        initial_guess = [1000]  # Initial guess for Qmax
+        initial_guess = [100]  # Initial guess for Qmax
         bounds = [(0, np.inf)]  # Define bounds for Qmax
-        result = minimize(error_function, initial_guess, args=(data["Pwf (bar)"], data["Rate (km3/d)"], Pws), bounds=bounds)
+        result = minimize(error_function, initial_guess, args=(data["Pwf (bar)"], data["Rate (Sm3/d)"], Pws), bounds=bounds)
+
 
         # Extract optimized parameter
         Qmax_fit = result.x[0]
