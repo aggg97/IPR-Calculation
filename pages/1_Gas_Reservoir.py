@@ -8,7 +8,7 @@ st.title("Gas Reservoir")
 
 st.header("Forcheimer Reservoir Model: ")
 
-forcheimer='''The Forcheimer equation expresses the inflow performance in terms of turbulent and non turbulent pressure drop coefficients expressed as:
+forcheimer=('''The Forcheimer equation expresses the inflow performance in terms of turbulent and non turbulent pressure drop coefficients expressed as:
 
 *   "a"         the turbulent pressure drop (Non-Darcy Coefficient )    
 *   "b"         the laminar pressure drop (Non-Darcy Coefficient)
