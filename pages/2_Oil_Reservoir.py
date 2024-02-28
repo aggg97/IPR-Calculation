@@ -113,3 +113,5 @@ Squaring the differences ensures that all values are positive, facilitating opti
 to converge efficiently. Additionally, multiplying the squared differences by a large number amplifies their impact during optimization, 
 improving the precision of the solver and enabling finer adjustments to the model parameters*''')
 
+st.divider()
+
