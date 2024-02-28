@@ -5,7 +5,7 @@ from scipy.optimize import minimize
 from tabulate import tabulate
 import pandas as pd
 
-st.page_link("pages/Homepage.py", label="go back to Homepage")
+st.page_link("Homepage.py", label="go back to Homepage")
 st.title("Gas Reservoir")
 
 st.header("Forcheimer Reservoir Model: ")
