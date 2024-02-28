@@ -111,4 +111,4 @@ to converge efficiently. Additionally, multiplying the squared differences by a 
 improving the precision of the solver and enabling finer adjustments to the model parameters*''')
 
 st.divider()
-st.set_option('depreciation.showPyplotGlobalUse',False)
+
