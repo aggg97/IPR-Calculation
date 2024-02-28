@@ -46,11 +46,12 @@ def collect_data():
         date = st.date_input("Date", key=f"date_{i}")
         comment = st.text_input("Comment", key=f"comment_{i}")
         Pwf = st.number_input("Flowing Bottomhole Pressure (bar)", key=f"Pwf_{i}")
-        Q = st.number_input("Rate (km3/d)", key=f"Q_{i}")
+        Q_km3d = st.number_input("Rate (km3/d)", key=f"Q_{i}")
+        Q_m3d = Q_km3d * 1e3  # Convert km3/d to m3/d
 
-        data.append([date, comment, Pws, Pwf, Q])
+        data.append([date, comment, Pwf, Q_m3d])
 
-    return pd.DataFrame(data, columns=["Date", "Comment", "Pws (bar)", "Pwf (bar)", "Rate (km3/d)"])
+    return pd.DataFrame(data, columns=["Date", "Comment", "Pws (bar)", "Pwf (bar)", "Rate (m3/d)"])
 
 def main():
     # Load test data
