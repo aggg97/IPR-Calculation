@@ -8,8 +8,8 @@ st.title("Oil Reservoir")
 
 st.header("Vogel Reservoir Model:")
 
-vogel_info = ('''
-Vogel's IPR quadratic equation is defined as:''')
+vogel_info = '''
+Vogel's IPR quadratic equation is defined as:'''
 
 st.markdown(vogel_info)
 
