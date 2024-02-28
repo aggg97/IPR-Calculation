@@ -62,7 +62,7 @@ def main():
 
         # Extract Pwf and Q data
         Pwf_data = data["Pwf (bar)"]
-        Q_data = data["Rate (km3/d)"]
+        Q_data = data["Rate (km3/d)"]*1000
 
         # Define error function to minimize
         def error_function(params):
@@ -95,14 +95,14 @@ def main():
             st.write("No real roots exist.")
 
         # Range of points for extrapolation of the curve
-        Q_range = np.linspace(0, AOF, 500)
+        Q_range = np.linspace(0, AOF/1000, 500)
         Pwf_fit = curve_IPR(Q_range, [a_fit, b_fit, Pws_fit])
 
         # Plot
         st.subheader("IPR Plot")
         fig, ax = plt.subplots()
-        ax.scatter(Q_data, Pwf_data, color='red', label='Test Data')
-        ax.plot(Q_range, Pwf_fit, color='blue', label='IPR (Fitted Curve)')
+        ax.scatter(Q_data/1000, Pwf_data, color='red', label='Test Data')
+        ax.plot(Q_range/1000, Pwf_fit, color='blue', label='IPR (Fitted Curve)')
         ax.set_xlabel('Rate (km$^3$/ d)')
         ax.set_ylabel('Pressure (bar)')
         ax.set_title('Pressure vs Rate')
