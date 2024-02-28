@@ -63,6 +63,7 @@ def main():
         # Extract Pwf and Q data
         Pwf_data = data["Pwf (bar)"]
         Q_data = data["Rate (km3/d)"]*1000
+        st.write(Q_data)
 
         # Define error function to minimize
         def error_function(params):
