@@ -11,14 +11,15 @@ st.header("Vogel Reservoir Model:")
 vogel_info = """
 ## Vogel Reservoir Model
 
-Vogel's IPR cuadratic equation is defined as:
+Vogel's IPR quadratic equation is defined as:
 
-$\frac{Q}{AOF}= 1-0.2\frac{Pwf}{Pws}-0.8(\frac{Pwf}{Pws})^{2}$
+$$\frac{Q}{AOF}= 1-0.2\frac{Pwf}{Pws}-0.8\left(\frac{Pwf}{Pws}\right)^{2}$$
 
-$Q= AOF*[1-0.2\frac{Pwf}{Pws}-0.8(\frac{Pwf}{Pws})^{2}]$
+$$Q= AOF \cdot \left[1-0.2\frac{Pwf}{Pws}-0.8\left(\frac{Pwf}{Pws}\right)^{2}\right]$$
 """
 
-st.markdown(vogel_info)
+st.markdown(vogel_info, unsafe_allow_html=True)
+
 st.divider()
 
 # Function to collect input data
