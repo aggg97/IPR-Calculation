@@ -9,7 +9,7 @@ st.title("Oil Reservoir")
 st.header("Vogel Reservoir Model:")
 
 
-st.markdown("Vogel's IPR quadratic equation is defined as: ")
+st.write("Vogel's IPR quadratic equation is defined as: ")
 
 
 st.latex( r''' \frac{Q}{AOF}= 1-0.2\frac{Pwf}{Pws}-0.8\left(\frac{Pwf}{Pws}\right)^{2}''')
