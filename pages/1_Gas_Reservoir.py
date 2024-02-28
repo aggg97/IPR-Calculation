@@ -153,15 +153,16 @@ def main():
         st.write(f"AOF: {AOF_new:.2f} km3/d when reservoir pressure is {Pws_new} bar")
         
         # Range of points for extrapolation of the future curve
-        Q_range = np.linspace(0, max(AOF_new,AOF_or), 500)
-        Pwf_fit_new = curve_IPR_future(Q_range, a_fit, b_fit, Pws_new)
+        Q_range_or = np.linspace(0, AOF_or, 500)
+        Q_range_new = np.linspace(0, AOF_new, 500)
+        Pwf_fit_new = curve_IPR_future(Q_range_new, a_fit, b_fit, Pws_new)
         
         # Plot
         st.subheader("Future IPR Plot")
         fig, ax = plt.subplots()
         ax.scatter(data["Rate (km3/d)"], data["Pwf (bar)"], color='red', label='Test Data ')
-        ax.plot(Q_range, Pwf_fit, color='blue', label='IPR (Fitted Curve)')
-        ax.plot(Q_range, Pwf_fit_new, color='green', linestyle='--', label='Future IPR')
+        ax.plot(Q_range_or, Pwf_fit, color='blue', label='IPR (Fitted Curve)')
+        ax.plot(Q_range_new, Pwf_fit_new, color='green', linestyle='--', label='IPR Sensitivity')
         ax.set_xlabel('Rate (km$^3$/ d)')
         ax.set_ylabel('Pressure (bar)')
         ax.set_title('Pressure vs Rate')
