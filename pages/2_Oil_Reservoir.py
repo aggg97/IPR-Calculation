@@ -68,11 +68,11 @@ def main():
         initial_guess = [100]  # Initial guess for Qmax
         bounds = [(0, np.inf)]  # Define bounds for Qmax
         result = minimize(error_function, initial_guess, args=(data["Pwf (bar)"], data["Rate (m3/d)"], Pws), bounds=bounds)
-
-        # Extract optimized parameter
-        Qmax_fit = result.x[0]
-        st.header("AOF (m3/d):")
-        st.write(Qmax_fit)
+        
+        st.header("Fitted Parameters:")
+        col1, col2 = st.columns(2)
+        col1.metric(label=f":black[Reservoir Pressure (bar)]", value=f"{Pws:.2f}")
+        col2.metric(label=f":green[AOF (m3/d)]", value=f"{Qmax_fit:.2f}")
 
         # Generate curve points for plotting
         Pwf_range = np.linspace(0, min(np.max(data["Pwf (bar)"]), Pws), 500)
