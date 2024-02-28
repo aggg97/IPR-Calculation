@@ -11,10 +11,10 @@ st.markdown(intro)
 col1, col2 = st.columns(2)
 
 with col1:
-    st.page_link("pages/1_Gas_Reservoir.py", label="Gas Reservoir", color=red)
+    st.page_link("pages/1_Gas_Reservoir.py", label="click here")
 
 with col2:
-    st.page_link("pages/2_Oil_Reservoir.py", label="Oil Reservoir", color=green)
+    st.page_link("pages/2_Oil_Reservoir.py", label="click here")
    
     
 
