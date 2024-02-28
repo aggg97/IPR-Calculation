@@ -19,6 +19,10 @@ st.latex(r'''(Q= AOF \cdot \left[1-0.2\frac{Pwf}{Pws}-0.8\left(\frac{Pwf}{Pws}\r
 
 st.divider()
 
+# Definition of the curve equation (Vogel IPR)
+def curve_IPR_Vogel(Pwf, Pws, Qmax):
+    return Qmax * (1 - 0.2 * (Pwf / Pws) - 0.8 * (Pwf / Pws)**2)
+    
 # Function to collect input data
 def collect_data():
     st.header("Input Test Data")
@@ -33,11 +37,11 @@ def collect_data():
         date = st.date_input("Date", key=f"date_{i}")
         comment = st.text_input("Comment", key=f"comment_{i}")
         Pwf = st.number_input("Flowing Bottomhole Pressure (bar)", key=f"Pwf_{i}")
-        Q = st.number_input("Rate (km3/d)", key=f"Q_{i}")
+        Q = st.number_input("Rate (m3/d)", key=f"Q_{i}")
 
         data.append([date, comment, Pws, Pwf, Q])
 
-    return pd.DataFrame(data, columns=["Date", "Comment", "Pws (bar)", "Pwf (bar)", "Rate (km3/d)"])
+    return pd.DataFrame(data, columns=["Date", "Comment", "Pws (bar)", "Pwf (bar)", "Rate (m3/d)"])
 
 def main():
     # Load test data
@@ -66,28 +70,29 @@ def main():
 
         # Extract optimized parameter
         Qmax_fit = result.x[0]
-
-        st.header("Optimized Qmax:")
+        st.header("AOF (m3/d):")
         st.write(Qmax_fit)
 
         # Generate curve points for plotting
         Pwf_range = np.linspace(0, min(np.max(data["Pwf (bar)"]), Pws), 500)
-        Qmax_curve_fit = Qmax_fit * (1 - 0.2 * (Pwf_range / Pws) - 0.8 * (Pwf_range / Pws) ** 2)
-
-        # Plot test points
+        Qmax_curve_fit =curve_IPR_Vogel(Pwf_range, Pws, Qmax_fit)
+        
+       # Plot
         st.subheader("IPR Plot")
-        plt.scatter(data["Rate (km3/d)"], data["Pwf (bar)"], color='red', label='Test Data')
+        fig, ax = plt.subplots()
+        ax.scatter((data["Rate (m3/d)"], data["Pwf (bar)"], color='red', label='Test Data')
+        ax.plot(Qmax_curve_fit, Pwf_range, color='blue', label='IPR (Fitted Curve)')
+        ax.set_xlabel('Rate (m$^3$/ d)')
+        ax.set_ylabel('Pressure (bar)')
+        ax.set_title('Pressure vs Rate')
+        ax.legend()
+        ax.grid(True)
 
-        # Plot fitted curve
-        plt.plot(Qmax_curve_fit, Pwf_range, color='blue', label='IPR (Fitted Curve)')
+        # Set the limits of the axes to ensure the plot starts at (0, 0)
+        ax.set_xlim(left=0, auto=True)
+        ax.set_ylim(bottom=0, auto=True)
 
-        plt.xlabel('Rate (km$^3$/d)')
-        plt.ylabel('Pressure (bar)')
-        plt.title('Pressure vs Rate')
-        plt.legend()
-        plt.grid(True)
-
-        st.pyplot()
+        st.pyplot(fig)
 
 if __name__ == "__main__":
     main()
