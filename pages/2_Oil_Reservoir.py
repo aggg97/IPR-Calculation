@@ -115,7 +115,7 @@ def main():
 
         st.write("For OIL: ")
         
-       st.latex(r'''\frac{C_a}{C_b} = \frac{Pws_a}{Pws_b}''')
+        st.latex(r'''\frac{C_a}{C_b} = \frac{Pws_a}{Pws_b}''')
 
         st.latex(r'''\frac{AOF_a}{AOF_b} = \frac{(Pws_a)^{2n+1}}{(Pws_b)^{2n+1}}''')
 
