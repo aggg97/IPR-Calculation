@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.optimize import minimize
 from tabulate import tabulate
 
-st.title("Inflow Performance Curve (IPR) Calculation")
+st.title("Gas Reservoir")
 
 st.header("Forcheimer Reservoir Model: ")
 
