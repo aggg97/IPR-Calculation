@@ -52,7 +52,7 @@ def main():
         Pws = data.loc[0, "Pws (bar)"]
 
         # Add a data point where rate q = 0 and Pwf = Pws
-        new_row = {'Date': 'Initial', 'Comment': 'Initial condition', 'Pws (bar)': Pws, 'Pwf (bar)': Pws, 'Rate (km3/d)': 0}
+        new_row = {'Date': 'Initial', 'Comment': 'Initial condition', 'Pws (bar)': Pws, 'Pwf (bar)': Pws, 'Rate (m3/d)': 0} # Corrected column name
         data = data.append(new_row, ignore_index=True)
 
         # Error function to minimize
@@ -67,7 +67,7 @@ def main():
         # Perform optimization
         initial_guess = [100]  # Initial guess for Qmax
         bounds = [(0, np.inf)]  # Define bounds for Qmax
-        result = minimize(error_function, initial_guess, args=(data["Pwf (bar)"], data["Rate (Sm3/d)"], Pws), bounds=bounds)
+        result = minimize(error_function, initial_guess, args=(data["Pwf (bar)"], data["Rate (m3/d)"], Pws), bounds=bounds)
 
         # Extract optimized parameter
         Qmax_fit = result.x[0]
