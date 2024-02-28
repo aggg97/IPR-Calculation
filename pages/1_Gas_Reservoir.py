@@ -8,8 +8,6 @@ st.title("Gas Reservoir")
 
 st.header("Forcheimer Reservoir Model: ")
 
-st.write("The Forcheimer equation expresses the inflow performance in terms of turbulent (a coefficient) and non turbulent (b coefficient) pressure drop coefficients expressed as:")
-
 st.latex(r'''\Delta P^2 = Pws ^2- Pwf^2 = a \cdot Q^2 + b \cdot Q ''')
 
 st.latex(r'''a \cdot Q^2 + b \cdot Q  - (Pws ^2- Pwf^2 ) = 0''')
