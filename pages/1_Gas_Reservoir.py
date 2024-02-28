@@ -73,7 +73,7 @@ def main():
             return scaled_squared_errors
 
         # Perform optimization
-        initial_guess = [3.75e-8, 4.17e-2, Pws]
+        initial_guess = [3.75e-8, 4.17e-1, Pws]  #this units are in bar2/km3/d
         bounds = [(0, np.inf), (0, np.inf), (Pws - 1e-9, Pws + 1e-9)]
         result = minimize(error_function, initial_guess, bounds=bounds)
 
