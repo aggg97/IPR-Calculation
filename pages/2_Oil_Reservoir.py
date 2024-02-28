@@ -64,7 +64,7 @@ def main():
             return scaled_squared_errors
 
         # Perform optimization
-        initial_guess = [100]  # Initial guess for Qmax
+        initial_guess = [1000]  # Initial guess for Qmax
         bounds = [(0, np.inf)]  # Define bounds for Qmax
         result = minimize(error_function, initial_guess, args=(data["Pwf (bar)"], data["Rate (km3/d)"], Pws), bounds=bounds)
 
