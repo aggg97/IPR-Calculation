@@ -97,7 +97,7 @@ def main():
             st.write("No real roots exist.")
 
         # Range of points for extrapolation of the curve
-        Q_range = np.linspace(0, AOF, 500)
+        Q_range = np.linspace(0, AOF/1000, 500)
         Pwf_fit = curve_IPR(Q_range, [a_fit, b_fit, Pws_fit])
 
         # Plot
