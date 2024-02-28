@@ -69,7 +69,6 @@ def main():
         bounds = [(0, np.inf)]  # Define bounds for Qmax
         result = minimize(error_function, initial_guess, args=(data["Pwf (bar)"], data["Rate (Sm3/d)"], Pws), bounds=bounds)
 
-
         # Extract optimized parameter
         Qmax_fit = result.x[0]
         st.header("AOF (m3/d):")
