@@ -10,9 +10,8 @@ st.markdown(intro)
 col1, col2 = st.columns(2)
 
 
-    st.markdown('<style> .red-text { color: red; } </style>', unsafe_allow_html=True)
+
     st.page_link("pages/1_Gas_Reservoir.py", label="Gas Reservoir", class_name="red-text")
 
 
-    st.markdown('<style> .green-text { color: green; } </style>', unsafe_allow_html=True)
     st.page_link("pages/2_Oil_Reservoir.py", label="Oil Reservoir", class_name="green-text")
