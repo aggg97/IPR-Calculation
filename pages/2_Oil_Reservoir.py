@@ -115,13 +115,13 @@ def main():
 
         st.write("For OIL: ")
         
-        st.latex(r''\frac{C_a}{C_b} = \frac{Pws_a}{Pws_b}''')
-    
+       st.latex(r'''\frac{C_a}{C_b} = \frac{Pws_a}{Pws_b}''')
+
         st.latex(r'''\frac{AOF_a}{AOF_b} = \frac{(Pws_a)^{2n+1}}{(Pws_b)^{2n+1}}''')
-      
-        st.write("where n is a a value between 0.5-1 (depending if laminar or turbulent flow)")
-      
-        st.write("*NOTE: It is important to remember that the IPR maintains its shape (a, b coefficients don't change). Only its extreme values change (Reservoir presure and AOF)*")
+
+        st.write("where $n$ is a value between 0.5-1 (depending on whether laminar or turbulent flow)")
+
+        st.write("*NOTE: It is important to remember that the IPR maintains its shape (a, b coefficients don't change). Only its extreme values change (Reservoir pressure and AOF)*")
 
         
         Pws_new = st.number_input("Enter new reservoir pressure (in bar) to model IPR evolution", value=0.0)
