@@ -149,7 +149,8 @@ def main():
         
         # Calculate new AOF
         AOF_new = calculate_AOF_new(AOF, Pws, Pws_new, n)
-        st.write(f"AOF: {AOF_new} km3/d when Reservoir Pressure is {Pws_new} bar")
+        st.write("")
+        st.write(f"AOF: {AOF_new:.2f} km3/d when reservoir pressure is {Pws_new} bar")
         
         # Range of points for extrapolation of the future curve
         Q_range = np.linspace(0, max(AOF_new,AOF_or), 500)
