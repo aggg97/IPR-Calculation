@@ -46,12 +46,11 @@ def collect_data():
         date = st.date_input("Date", key=f"date_{i}")
         comment = st.text_input("Comment", key=f"comment_{i}")
         Pwf = st.number_input("Flowing Bottomhole Pressure (bar)", key=f"Pwf_{i}")
-        Q_km3d = st.number_input("Rate (km3/d)", key=f"Q_{i}")
-        Q_m3d = Q_km3d * 1e3  # Convert km3/d to m3/d
+        Q = st.number_input("Rate (km3/d)", key=f"Q_{i}")
 
-        data.append([date, comment, Pwf, Q_m3d])
+        data.append([date, comment, Pws, Pwf, Q])
 
-    return pd.DataFrame(data, columns=["Date", "Comment", "Pws (bar)", "Pwf (bar)", "Rate (m3/d)"])
+    return pd.DataFrame(data, columns=["Date", "Comment", "Pws (bar)", "Pwf (bar)", "Rate (km3/d)"])
 
 def main():
     # Load test data
@@ -63,7 +62,7 @@ def main():
 
         # Extract Pwf and Q data
         Pwf_data = data["Pwf (bar)"]
-        Q_data = data["Rate (m3/d)"]
+        Q_data = data["Rate (km3/d)"]
 
         # Define error function to minimize
         def error_function(params):
@@ -91,7 +90,7 @@ def main():
         discriminant = b_fit ** 2 + 4 * a_fit * Pws_fit ** 2
         if discriminant >= 0:
             AOF = (-b_fit + np.sqrt(discriminant)) / (2 * a_fit)
-            col2.metric(label=f":blue[AOF (km3/d)]", value=f"{AOF/1000:.2f}")
+            col2.metric(label=f":blue[AOF (km3/d)]", value=f"{AOF / 1000:.2f}")
         else:
             st.write("No real roots exist.")
 
@@ -102,8 +101,8 @@ def main():
         # Plot
         st.subheader("IPR Plot")
         fig, ax = plt.subplots()
-        ax.scatter(Q_data/1000, Pwf_data, color='red', label='Test Data')
-        ax.plot(Q_range/1000, Pwf_fit, color='blue', label='IPR (Fitted Curve)')
+        ax.scatter(Q_data, Pwf_data, color='red', label='Test Data')
+        ax.plot(Q_range, Pwf_fit, color='blue', label='IPR (Fitted Curve)')
         ax.set_xlabel('Rate (km$^3$/ d)')
         ax.set_ylabel('Pressure (bar)')
         ax.set_title('Pressure vs Rate')
@@ -115,49 +114,6 @@ def main():
         ax.set_ylim(bottom=0, auto=True)
 
         st.pyplot(fig)
-      
-        st.subheader("Reservoir Pressure Sensitivity")
-
-        # Collect new reservoir pressure
-        Pws_new = st.number_input("Enter new reservoir pressure (in bar) to model IPR evolution: ", value=0.0)
-        
-        # Fetkovich Method
-        n = 0.5
-        AOF_or=AOF/1000
-        Pws_or=Pws
-        
-        def calculate_AOF_new(AOF_or, Pws_or, Pws_new, n):
-            AOF_new = AOF_or * (Pws_new / Pws_or) ** (2 * n)
-            return AOF_new
-        
-        # Future IPR
-        def curve_IPR_future(Q, a, b, Pws_new):
-            return np.sqrt(-a * Q ** 2 - b * Q + Pws_new ** 2)
-        
-        # Calculate new AOF
-        AOF_new = calculate_AOF_new(AOF, Pws, Pws_new, n)
-        st.write(f"AOF: {AOF_new / 1000} km3/d when Reservoir Pressure = {Pws_new} bar")
-        
-        # Range of points for extrapolation of the future curve
-        Q_range = np.linspace(0, AOF_new, 500)
-        Pwf_fit_new = curve_IPR_future(Q_range, a_fit, b_fit, Pws_new)
-        
-        # Plot
-        st.subheader("Future IPR Plot")
-        fig, ax = plt.subplots()
-        ax.scatter(data["Rate (Sm3/d)"] / 1000, data["Pwf (bar)"], color='red', label='Test Data ')
-        ax.plot(Q_range / 1000, Pwf_fit, color='blue', label='IPR (Fitted Curve)')
-        ax.plot(Q_range / 1000, Pwf_fit_new, color='green', linestyle='--', label='Future IPR')
-        ax.set_xlabel('Rate (km$^3$/ d)')
-        ax.set_ylabel('Pressure (bar)')
-        ax.set_title('Pressure vs Rate')
-        ax.legend()
-        ax.grid(True)
-        ax.set_xlim(0, ax.get_xlim()[1])
-        ax.set_ylim(0, ax.get_ylim()[1])
-        
-        st.pyplot(fig)
-
 
     else:
         st.write("No data provided.")
@@ -178,8 +134,44 @@ improving the precision of the solver and enabling finer adjustments to the mode
 
 st.divider()
 
+st.subheader("Reservoir Pressure Sensitivity")
 
+# Collect new reservoir pressure
+Pws_new = st.number_input("Enter new reservoir pressure (in bar) to model IPR evolution: ", value=0.0)
 
+# Fetkovich Method
+n = 0.5
+AOF_or=AOF
+Pws_or=Pws
 
-  
+def calculate_AOF_new(AOF_or, Pws_or, Pws_new, n):
+    AOF_new = AOF_or * (Pws_new / Pws_or) ** (2 * n)
+    return AOF_new
 
+# Future IPR
+def curve_IPR_future(Q, a, b, Pws_new):
+    return np.sqrt(-a * Q ** 2 - b * Q + Pws_new ** 2)
+
+# Calculate new AOF
+AOF_new = calculate_AOF_new(AOF, Pws, Pws_new, n)
+st.write(f"AOF: {AOF_new / 1000} km3/d when Reservoir Pressure = {Pws_new} bar")
+
+# Range of points for extrapolation of the future curve
+Q_range = np.linspace(0, AOF_new, 500)
+Pwf_fit_new = curve_IPR_future(Q_range, a_fit, b_fit, Pws_new)
+
+# Plot
+st.subheader("Future IPR Plot")
+fig, ax = plt.subplots()
+ax.scatter(data["Rate (Sm3/d)"] / 1000, data["Pwf (bar)"], color='red', label='Test Data ')
+ax.plot(Q_range / 1000, Pwf_fit, color='blue', label='IPR (Fitted Curve)')
+ax.plot(Q_range / 1000, Pwf_fit_new, color='green', linestyle='--', label='Future IPR')
+ax.set_xlabel('Rate (km$^3$/ d)')
+ax.set_ylabel('Pressure (bar)')
+ax.set_title('Pressure vs Rate')
+ax.legend()
+ax.grid(True)
+ax.set_xlim(0, ax.get_xlim()[1])
+ax.set_ylim(0, ax.get_ylim()[1])
+
+st.pyplot(fig)
