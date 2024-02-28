@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title("IPR Calculation")
+st.title("Inflow Performance Curve (IPR) Calculation")
 
 intro = '''This Streamlit app contains a Python script that will allow you to perform an IPR Calculation for both an oil
 and gas reservoir. It collects user input test data to perform a curve fitting using scipy.optimize.curve_fit, 
