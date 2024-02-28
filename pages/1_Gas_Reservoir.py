@@ -96,7 +96,7 @@ def main():
 
         # Range of points for extrapolation of the curve
         Q_range = np.linspace(0, AOF/1000, 500)
-        Pwf_fit = curve_IPR(Q_range, [a_fit, b_fit, Pws_fit])
+        Pwf_fit = curve_IPR(Q_range/1000, [a_fit, b_fit, Pws_fit])
 
         # Plot
         st.subheader("IPR Plot")
@@ -152,8 +152,8 @@ def main():
         st.write(f"AOF: {AOF_new / 1000} km3/d when Reservoir Pressure is = {Pws_new} bar")
         
         # Range of points for extrapolation of the future curve
-        Q_range = np.linspace(0, AOF_new, 500)
-        Pwf_fit_new = curve_IPR_future(Q_range, a_fit, b_fit, Pws_new)
+        Q_range = np.linspace(0, AOF_new/1000, 500)
+        Pwf_fit_new = curve_IPR_future(Q_range/1000, a_fit, b_fit, Pws_new)
         
         # Plot
         st.subheader("Future IPR Plot")
