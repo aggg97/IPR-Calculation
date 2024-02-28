@@ -134,10 +134,10 @@ improving the precision of the solver and enabling finer adjustments to the mode
 
 st.divider()
 
-st.sidebar.title("Reservoir Pressure Sensitivity")
+st.subtitle("Reservoir Pressure Sensitivity")
 
 # Collect new reservoir pressure
-Pws_new = st.sidebar.number_input("Enter new reservoir pressure (in bar) to model IPR evolution: ", value=0.0)
+Pws_new = st.number_input("Enter new reservoir pressure (in bar) to model IPR evolution: ", value=0.0)
 
 # Fetkovich Method
 n = 0.5
