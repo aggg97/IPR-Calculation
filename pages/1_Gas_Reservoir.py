@@ -98,10 +98,10 @@ def main():
         Pwf_fit = curve_IPR(Q_range, [a_fit, b_fit, Pws_fit])
 
         # Plot
-        st.subheader("IPR Curve")
+        st.subheader("IPR Plot")
         fig, ax = plt.subplots()
         ax.scatter(Q_data, Pwf_data, color='red', label='Test Data')
-        ax.plot(Q_range, Pwf_fit, color='blue', label='Fitted Curve')
+        ax.plot(Q_range, Pwf_fit, color='blue', label='IPR (Fitted Curve)')
         ax.set_xlabel('Rate (km$^3$/ d)')
         ax.set_ylabel('Pressure (bar)')
         ax.set_title('Pressure vs Rate')
