@@ -134,7 +134,7 @@ def main():
             return AOF_new
         
         AOF_new = calculate_AOF_new(Qmax_fit, Pws_or, Pws_new, n)
-        st.write("AOF: {:.2f} when reservoir Pressure is {:.2f}".format(AOF_new, Pws_new))
+        st.write("AOF: {:.2f} when reservoir pressure is {:.2f}".format(AOF_new, Pws_new))
         
         # Adjusted curve equation for Vogel IPR
         def curve_IPR_Vogel_new(Pwf, Pws, AOF_new):
