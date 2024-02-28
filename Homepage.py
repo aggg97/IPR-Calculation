@@ -10,9 +10,9 @@ st.markdown(intro)
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader("Gas Reservoir")
+    st.markdown('<h3 style="color:red;">Gas Reservoir</h3>', unsafe_allow_html=True)
     st.markdown("[Link to Gas Reservoir](pages/1_Gas_Reservoir.py)")
 
 with col2:
-    st.subheader("Oil Reservoir")
+    st.markdown('<h3 style="color:green;">Oil Reservoir</h3>', unsafe_allow_html=True)
     st.markdown("[Link to Oil Reservoir](pages/2_Oil_Reservoir.py)")
