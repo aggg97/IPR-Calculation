@@ -132,7 +132,9 @@ def main():
         st.subheader("Reservoir Pressure Sensitivity - Fetkovich Method")
 
         st.write("For gas: ")
-        st.latex(r'''\frac{𝜇_b. 𝑍_𝑏}{𝜇_𝑎. 𝑍_𝑎} = 1''')
+        
+        st.latex(r'''\frac{\mu_b \cdot Z_b}{\mu_a \cdot Z_a} \approx 1''')
+
     
         st.latex(r'''\frac{AOF_a}{AOF_b} = \frac{(Pws_a)^{2n}}{(Pws_b)^{2n}}''')
       
