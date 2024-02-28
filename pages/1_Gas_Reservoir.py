@@ -144,9 +144,9 @@ def main():
 
         # Collect new reservoir pressure
         Pws_new = st.number_input("Enter new reservoir pressure (in bar) to model IPR evolution: ", value=0.0)
+        n = st.slider("Enter value for n", min_value=0.1, max_value=1.0, value=0.5)
         
         # Fetkovich Method
-        n = 0.5
         AOF_or=AOF
         Pws_or=Pws
         
