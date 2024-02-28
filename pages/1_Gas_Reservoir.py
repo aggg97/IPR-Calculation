@@ -8,8 +8,11 @@ st.title("Gas Reservoir")
 
 st.header("Forcheimer Reservoir Model: ")
 
+at.write('''The Forcheimer equation expresses the inflow performance in terms of turbulent and non-turbulent pressure drop coefficients expressed as:\n\n'
+              '*   "a"         the turbulent pressure drop (Non-Darcy Coefficient )\n'
+              '*   "b"         the laminar pressure drop (Non-Darcy Coefficient)\n\n'
+              'To represent the IPR in a Pressure vs Rate plot then, ''')
 
- 
 st.latex(r'''\Delta P^2 = Pws ^2- Pwf^2 = a \cdot Q^2 + b \cdot Q ''')
 
 st.latex(r'''a \cdot Q^2 + b \cdot Q  - (Pws ^2- Pwf^2 ) = 0''')
