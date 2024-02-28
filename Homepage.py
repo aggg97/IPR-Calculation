@@ -10,7 +10,7 @@ st.markdown(intro)
 col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown('<a href="pages/1_Gas_Reservoir.py" style="color:red">Gas Reservoir</a>', unsafe_allow_html=True)
+    st.header('<a href="pages/1_Gas_Reservoir.py" style="color:red">Gas Reservoir</a>', unsafe_allow_html=True)
 
 with col2:
-    st.markdown('<a href="pages/2_Oil_Reservoir.py" style="color:green">Oil Reservoir</a>', unsafe_allow_html=True)
+    st.header('<a href="pages/2_Oil_Reservoir.py" style="color:green">Oil Reservoir</a>', unsafe_allow_html=True)
