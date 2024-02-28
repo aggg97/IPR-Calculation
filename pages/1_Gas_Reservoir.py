@@ -141,6 +141,8 @@ Pws_new = st.number_input("Enter new reservoir pressure (in bar) to model IPR ev
 
 # Fetkovich Method
 n = 0.5
+AOF_or=AOF
+Pws_or=Pws
 
 def calculate_AOF_new(AOF_or, Pws_or, Pws_new, n):
     AOF_new = AOF_or * (Pws_new / Pws_or) ** (2 * n)
