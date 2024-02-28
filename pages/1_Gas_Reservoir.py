@@ -13,7 +13,7 @@ forcheimer = ('''The Forcheimer equation expresses the inflow performance in ter
 *   "a"         the turbulent pressure drop (Non-Darcy Coefficient )
 *   "b"         the laminar pressure drop (Non-Darcy Coefficient)
 
-To represent the IPR in a Pressure vs Rate plot then, '''')
+To represent the IPR in a Pressure vs Rate plot then, ''')
 
 st.markdown(forcheimer)
  
