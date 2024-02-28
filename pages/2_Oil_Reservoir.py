@@ -75,7 +75,7 @@ def main():
         Qmax_curve_fit = Qmax_fit * (1 - 0.2 * (Pwf_range / Pws) - 0.8 * (Pwf_range / Pws) ** 2)
 
         # Plot test points
-        st.subheader(IPR Plot")
+        st.subheader("IPR Plot")
         plt.scatter(data["Rate (km3/d)"], data["Pwf (bar)"], color='red', label='Test Data')
 
         # Plot fitted curve
