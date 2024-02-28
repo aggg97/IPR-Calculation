@@ -9,13 +9,11 @@ st.title("Inflow Performance Curve (IPR) Calculation")
 st.header("Vogel Reservoir Model:")
 
 vogel_info = """
-## Vogel Reservoir Model
-
 Vogel's IPR quadratic equation is defined as:
 
-$$\frac{Q}{AOF}= 1-0.2\frac{Pwf}{Pws}-0.8\left(\frac{Pwf}{Pws}\right)^{2}$$
+$\frac{Q}{AOF}= 1-0.2\frac{Pwf}{Pws}-0.8\left(\frac{Pwf}{Pws}\right)^{2}$
 
-$$Q= AOF \cdot \left[1-0.2\frac{Pwf}{Pws}-0.8\left(\frac{Pwf}{Pws}\right)^{2}\right]$$
+$Q= AOF \cdot \left[1-0.2\frac{Pwf}{Pws}-0.8\left(\frac{Pwf}{Pws}\right)^{2}\right]$
 """
 
 st.markdown(vogel_info, unsafe_allow_html=True)
