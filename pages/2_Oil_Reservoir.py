@@ -104,15 +104,12 @@ if __name__ == "__main__":
 
 st.divider()
 st.write("Error function to minimize by solver during curve fitting:")
+
 st.latex(r''' ∑ [ln(AOF*[1-0.2\frac{Pwf}{Pws}-0.8(\frac{Pwf}{Pws})^{2}]) -  ln( Q)]^2\cdot 1000 ''')
 
-st.write("NOTE: By taking the logarithm of the difference between the model prediction and the test data,
-we can effectively handle a wide range of values and mitigate the influence of outliers.
-Squaring the differences ensures that all values are positive, 
-facilitating optimization algorithms to converge efficiently. 
-Additionally, multiplying the squared differences
-by a large number amplifies their impact during optimization, 
-improving the precision of the solver and enabling finer adjustments to the model parameters.")
+st.write('''NOTE: By taking the logarithm of the difference between the model prediction and the test data, 
+we can effectively handle a wide range of values and mitigate the influence of outliers. 
+Squaring the differences ensures that all values are positive, facilitating optimization algorithms
+to converge efficiently. Additionally, multiplying the squared differences by a large number amplifies their impact during optimization, 
+improving the precision of the solver and enabling finer adjustments to the model parameters''')
 
-
-st.divider()
