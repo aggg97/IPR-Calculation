@@ -7,6 +7,10 @@ and gas reservoir. It collects user input test data to perform a curve fitting u
 fitting the Inflow Performance Relationship curve to the data.'''
 st.markdown(intro)
 
+st.page_link("pages/1_Gas_Reservoir.py", label="Gas Reservoir", icon="1️⃣")
+st.page_link("pages/2_Oil_Reservoir.py", label="Oil Reservoir", icon="1️⃣")
+
+
 col1, col2 = st.columns(2)
 
 with col1:
@@ -17,7 +21,5 @@ with col2:
     st.markdown('<h3 style="color:green;">Oil Reservoir</h3>', unsafe_allow_html=True)
     st.markdown("[clcik here](pages/2_Oil_Reservoir.py)")
     
-st.page_link("pages/1_Gas_Reservoir.py", label="Gas Reservoir", icon="1️⃣")
-st.page_link("pages/2_Oil_Reservoir.py", label="Oil Reservoir", icon="1️⃣")
 
 st.markdown("add photos with what you can do")
