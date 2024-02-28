@@ -121,6 +121,7 @@ if __name__ == "__main__":
     main()
 
 
+st.divider()
 st.write("Error function to minimize by solver during curve fitting: ")
 
 st.latex(r''' ∑ [ln(Pws^2 - a \cdot Q^2 - b \cdot Q  ) -  ln( Pwf^2)]^2\cdot 1000 ''')
@@ -133,7 +134,6 @@ improving the precision of the solver and enabling finer adjustments to the mode
 
 st.divider()
 
-st.divider()
 st.sidebar.title("Reservoir Pressure Sensitivity")
 
 
