@@ -14,4 +14,4 @@ with col1:
 st.page_link("pages/1_Gas_Reservoir.py",color=red, label="Gas Reservoir")
 
 with col2:
-st.page_link("pages/2_Oil_Reservoir,py",color=green,  label="Oil Reservoir")
+st.page_link("pages/2_Oil_Reservoir.py",color=green,  label="Oil Reservoir")
