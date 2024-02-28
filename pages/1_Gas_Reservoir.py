@@ -73,7 +73,7 @@ def main():
             return scaled_squared_errors
 
         # Perform optimization
-        initial_guess = [3.75e-8, 4.17e-1, Pws]  #this units are in bar2/km3/d
+        initial_guess = [1.65e-2, 4.17e-1, Pws]  #this units are in bar2/km3/d
         bounds = [(0, np.inf), (0, np.inf), (Pws - 1e-9, Pws + 1e-9)]
         result = minimize(error_function, initial_guess, bounds=bounds)
 
@@ -82,8 +82,8 @@ def main():
 
         st.header("Fitted Parameters:")
         col1, col2 = st.columns(2)
-        col1.metric(label=f":red[a (bar2/(Sm3/day)2)]", value=f"{a_fit/1e-3:.2e}")
-        col1.metric(label=f":green[b (bar2/Sm3/day)]", value=f"{b_fit/1e-6:.2e}")
+        col1.metric(label=f":red[a (bar2/(Sm3/day)2)]", value=f"{a_fit/1e-6:.2e}")
+        col1.metric(label=f":green[b (bar2/Sm3/day)]", value=f"{b_fit/1e-3:.2e}")
         col2.metric(label=f":black[Reservoir Pressure (bar)]", value=f"{Pws_fit:.2f}")
 
         # AOF Calculation
@@ -149,16 +149,16 @@ def main():
         
         # Calculate new AOF
         AOF_new = calculate_AOF_new(AOF, Pws, Pws_new, n)
-        st.write(f"AOF: {AOF_new / 1000} km3/d when Reservoir Pressure is = {Pws_new} bar")
+        st.write(f"AOF: {AOF_new} km3/d when Reservoir Pressure is {Pws_new} bar")
         
         # Range of points for extrapolation of the future curve
-        Q_range = np.linspace(0, AOF_new/1000, 500)
-        Pwf_fit_new = curve_IPR_future(Q_range/1000, a_fit, b_fit, Pws_new)
+        Q_range = np.linspace(0, max(AOF_new,AOF_or), 500)
+        Pwf_fit_new = curve_IPR_future(Q_range, a_fit, b_fit, Pws_new)
         
         # Plot
         st.subheader("Future IPR Plot")
         fig, ax = plt.subplots()
-        ax.scatter(data["Rate (m3/d)"] / 1000, data["Pwf (bar)"], color='red', label='Test Data ')
+        ax.scatter(data["Rate (km3/d)"], data["Pwf (bar)"], color='red', label='Test Data ')
         ax.plot(Q_range, Pwf_fit, color='blue', label='IPR (Fitted Curve)')
         ax.plot(Q_range, Pwf_fit_new, color='green', linestyle='--', label='Future IPR')
         ax.set_xlabel('Rate (km$^3$/ d)')
