@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.optimize import minimize
 import pandas as pd
 
+st.page_link("Homepage.py", label="Go back to Homepage")
 st.title("Oil Reservoir")
 
 st.header("Vogel Reservoir Model:")
@@ -77,10 +78,10 @@ def main():
         Qmax_curve_fit = curve_IPR_Vogel(Pwf_range, Pws, Qmax_fit)
 
         # Plot test points
-        plt.scatter(data_df["Rate (km3/d)"], data_df["Pwf (bar)"], color='red', label='Reservoir Pressure and Test Data')
+        plt.scatter(data_df["Rate (km3/d)"], data_df["Pwf (bar)"], color='red', label='Test Data')
 
         # Plot fitted curve
-        plt.plot(Qmax_curve_fit, Pwf_range, color='blue', label='Fitted Curve')
+        plt.plot(Qmax_curve_fit, Pwf_range, color='blue', label='IPR (Fitted Curve)')
 
         # Set the limits for both x and y axes
         plt.xlim(0, plt.xlim()[1])
