@@ -90,13 +90,13 @@ def main():
         discriminant = b_fit ** 2 + 4 * a_fit * Pws_fit ** 2
         if discriminant >= 0:
             AOF = (-b_fit + np.sqrt(discriminant)) / (2 * a_fit)
-            col2.metric(label=f":blue[AOF (km3/d)]", value=f"{AOF / 1000:.2f}")
+            col2.metric(label=f":blue[AOF (km3/d)]", value=f"{AOF:.2f}")
         else:
             st.write("No real roots exist.")
 
         # Range of points for extrapolation of the curve
-        Q_range = np.linspace(0, AOF/1000, 500)
-        Pwf_fit = curve_IPR(Q_range/1000, [a_fit, b_fit, Pws_fit])
+        Q_range = np.linspace(0, AOF, 500)
+        Pwf_fit = curve_IPR(Q_range, [a_fit, b_fit, Pws_fit])
 
         # Plot
         st.subheader("IPR Plot")
