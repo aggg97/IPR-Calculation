@@ -48,9 +48,9 @@ def collect_data():
         Pwf = st.number_input("Flowing Bottomhole Pressure (bar)", key=f"Pwf_{i}")
         Q = st.number_input("Rate (km3/d)", key=f"Q_{i}")
 
-        data.append([date, comment, Pws, Pwf, Q])
+        data.append([date, comment, Pws, Pwf, Q*1000])
 
-    return pd.DataFrame(data, columns=["Date", "Comment", "Pws (bar)", "Pwf (bar)", "Rate (km3/d)"])
+    return pd.DataFrame(data, columns=["Date", "Comment", "Pws (bar)", "Pwf (bar)", "Rate (m3/d)"])
 
 def main():
     # Load test data
@@ -62,8 +62,8 @@ def main():
 
         # Extract Pwf and Q data
         Pwf_data = data["Pwf (bar)"]
-        Q_unit = data["Rate (km3/d)"]
-        Q_data= Q_unit*1000
+        Q_data = data["Rate (m3/d)"]
+   
         st.write(Q_data)
 
         # Define error function to minimize
@@ -160,7 +160,7 @@ def main():
         # Plot
         st.subheader("Future IPR Plot")
         fig, ax = plt.subplots()
-        ax.scatter(data["Rate (Sm3/d)"] / 1000, data["Pwf (bar)"], color='red', label='Test Data ')
+        ax.scatter(data["Rate (m3/d)"] / 1000, data["Pwf (bar)"], color='red', label='Test Data ')
         ax.plot(Q_range / 1000, Pwf_fit, color='blue', label='IPR (Fitted Curve)')
         ax.plot(Q_range / 1000, Pwf_fit_new, color='green', linestyle='--', label='Future IPR')
         ax.set_xlabel('Rate (km$^3$/ d)')
