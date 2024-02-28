@@ -129,8 +129,17 @@ def main():
         
         st.divider()
         
-        st.subheader("Reservoir Pressure Sensitivity")
-        
+        st.subheader("Reservoir Pressure Sensitivity - Fetkovich Method")
+
+        st.write("For gas: ")
+        st.latex(r'''\frac{𝜇_b. 𝑍_𝑏}{𝜇_𝑎. 𝑍_𝑎}≈ 1''')
+    
+        st.latex(r'''\frac{AOF_a}{AOF_b} = \frac{(Pws_a)^{2n}}{(Pws_b)^{2n}}''')
+      
+        st.write("where n is a a value between 0.5-1 (depending if laminar or turbulent flow)")
+      
+        st.write("*NOTE: It is important to remember that the IPR maintains its shape (a, b coefficients don't change). Only its extreme values change (Reservoir presure and AOF)*")
+
         # Collect new reservoir pressure
         Pws_new = st.number_input("Enter new reservoir pressure (in bar) to model IPR evolution: ", value=0.0)
         
