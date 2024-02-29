@@ -1,8 +1,8 @@
 import streamlit as st
-import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+import numpy as np
 from scipy.optimize import minimize
+import matplotlib.pyplot as plt
 
 # Definition of the quadratic curve equation (Inflow Performance Relationship - IPR)
 def curve_IPR(Q, params):
@@ -79,14 +79,7 @@ def calculate_coefficients(data, reservoir_type):
     return coefficients_df
 
 def main():
-    st.title('Multiwell IPR Calculation')
-
-    intro=('''In order to perform the curve fitting with a Forcheimer model a .csv file needs to be loaded with the following format. Note that all test data should be referenced to the same reservoir pressure.
-
-| Well | Pres (bar) | BHP (bar) | Rate (km3/d) |
-|------|------------|-----------|--------------|''')
-
-    st.markdown(intro)
+    st.title('Reservoir IPR Analysis')
 
     reservoir_type = st.radio("Select Reservoir Type:", ('Gas', 'Oil'))
 
@@ -95,14 +88,13 @@ def main():
         data = pd.read_csv(uploaded_file)
 
         coefficients_df = calculate_coefficients(data, reservoir_type)
-        coefficients_df_formatted = coefficients_df.copy()  # Make a copy for formatting
-
-        # Format 'a' and 'b' columns in scientific notation
-        coefficients_df_formatted['a (bar2/(m3/d)2)'] = coefficients_df['a (bar2/(m3/d)2)'].apply(lambda x: f'{x:.2e}')
-        coefficients_df_formatted['b (bar2/m3/d)'] = coefficients_df['b (bar2/m3/d)'].apply(lambda x: f'{x:.2e}')
+        coefficients_df_formatted = format_coefficients(coefficients_df)
 
         st.write("Data with IPR coefficients:")
         st.write(coefficients_df_formatted)
+
+        if st.button("Download Coefficients as CSV"):
+            download_csv(coefficients_df_formatted)
 
         st.write("## IPR Curves")
         for well_name, well_data in data.groupby("Well"):
@@ -111,6 +103,20 @@ def main():
                 plot_IPR_curve(well_data, coefficients_df[coefficients_df['Well'] == well_name])
             elif reservoir_type == 'Oil':
                 plot_Vogel_curve(well_data, coefficients_df[coefficients_df['Well'] == well_name])
+
+def format_coefficients(coefficients_df):
+    coefficients_df_formatted = coefficients_df.copy()
+    coefficients_df_formatted['a (bar2/(m3/d)2)'] = coefficients_df['a (bar2/(m3/d)2)'].apply(lambda x: f'{x:.2e}')
+    coefficients_df_formatted['b (bar2/m3/d)'] = coefficients_df['b (bar2/m3/d)'].apply(lambda x: f'{x:.2e}')
+    return coefficients_df_formatted
+
+def download_csv(dataframe):
+    csv = dataframe.to_csv(index=False)
+    st.download_button(
+        label="Download CSV",
+        data=csv,
+        file_name='coefficients.csv',
+        mime='text/csv')
 
 def plot_IPR_curve(data, coefficients):
     well_name = data["Well"].iloc[0]
@@ -147,7 +153,7 @@ def plot_Vogel_curve(data, coefficients):
     fig, ax = plt.subplots()
     ax.plot(Qmax_curve_fit, Pwf_range, color='black', label='IPR (Fitted Curve)')
     ax.scatter(data["Rate (m3/d)"], data["BHP (bar)"], color='magenta', label='Test Data')
-    
+
     ax.set_xlabel('Rate (m$^3$/d)')
     ax.set_ylabel('Pressure (bar)')
     ax.set_title(f'Pressure vs Rate for Well {well_name}')
@@ -158,3 +164,5 @@ def plot_Vogel_curve(data, coefficients):
 
     st.pyplot(fig)
 
+if __name__ == "__main__":
+    main()
