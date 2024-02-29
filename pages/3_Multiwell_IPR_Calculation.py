@@ -86,6 +86,7 @@ def main():
 | Well | Pres (bar) | BHP (bar) | Rate (km3/d) for gas and Rate (m3/d) for oil |
 |------|------------|-----------|----------------------------------------------|
 |      |            |           |                                              |
+|      |            |           |                                              |
 
 *Note that all test data should be referenced to the same reservoir pressure*. ''')
 
