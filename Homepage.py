@@ -8,7 +8,7 @@ fitting the Inflow Performance Relationship curve to the data.'''
 
 st.markdown(intro)
 
-col1, col2 = st.columns(2)
+col1, col2,col3 = st.columns(3)
 
 with col1:
     st.markdown('<h3 style="color:red;">Gas Reservoir</h3>', unsafe_allow_html=True)
@@ -17,7 +17,10 @@ with col1:
 with col2:
     st.markdown('<h3 style="color:green;">Oil Reservoir</h3>', unsafe_allow_html=True)
     st.page_link("pages/2_Oil_Reservoir.py", label="click here")
-   
+
+with col3:
+    st.markdown('<h3 style="color:black;">Multiwell IPR Calculation</h3>', unsafe_allow_html=True)
+    st.page_link("pages/2_Multiwell_IPR_Calculation.py", label="click here")
     
 
 st.markdown("add photos with what you can do")
