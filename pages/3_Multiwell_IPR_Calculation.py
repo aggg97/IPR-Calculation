@@ -88,13 +88,18 @@ def main():
         data = pd.read_csv(uploaded_file)
 
         coefficients_df = calculate_coefficients(data, reservoir_type)
-        coefficients_df_formatted = format_coefficients(coefficients_df)
 
         st.write("Data with IPR coefficients:")
-        st.write(coefficients_df_formatted)
+        if reservoir_type == 'Gas':
+            coefficients_df_formatted = format_coefficients(coefficients_df)
+            st.write(coefficients_df_formatted)
+            if st.button("Download Coefficients as CSV"):
+                download_csv(coefficients_df_formatted)
+        else:  # For Oil reservoir type, no formatting is applied
+            st.write(coefficients_df)
+            if st.button("Download Coefficients as CSV"):
+                download_csv(coefficients_df)
 
-        if st.button("Download Coefficients as CSV"):
-            download_csv(coefficients_df_formatted)
 
         st.write("## IPR Curves")
         for well_name, well_data in data.groupby("Well"):
