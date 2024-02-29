@@ -154,7 +154,7 @@ def plot_Vogel_curve(data, coefficients):
     ax.legend()
     ax.grid(True)
     ax.set_xlim(0, ax.get_xlim()[1])
-ax.set_ylim(0, ax.get_ylim()[1])
+    ax.set_ylim(0, ax.get_ylim()[1])
 
-st.pyplot(fig)
+    st.pyplot(fig)
 
