@@ -79,7 +79,13 @@ def calculate_coefficients(data, reservoir_type):
     return coefficients_df
 
 def main():
-    st.title('Reservoir IPR Analysis')
+    st.title('Multiwell IPR Calculation')
+
+    intro=('''In order to perform the curve fitting with a Forcheimer model a .csv file needs to be loaded with the following format. Note that all test data should be referenced to the same reservoir pressure.
+
+| Well | Pres (bar) | BHP (bar) | Rate (km3/d) |
+|------|------------|-----------|--------------|''')
+    
 
     reservoir_type = st.radio("Select Reservoir Type:", ('Gas', 'Oil'))
 
