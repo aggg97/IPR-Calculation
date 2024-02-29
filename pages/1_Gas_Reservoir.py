@@ -142,6 +142,8 @@ def main():
       
         st.write("*NOTE: It is important to remember that the IPR maintains its shape (a, b coefficients don't change). Only its extreme values change (Reservoir presure and AOF)*")
 
+        st.divider()
+      
         # Collect new reservoir pressure
         Pws_new = st.number_input("Enter new reservoir pressure (in bar) to model IPR evolution: ", value=0.0)
         n = st.slider("Enter value for n", min_value=0.1, max_value=1.0, value=0.5)
