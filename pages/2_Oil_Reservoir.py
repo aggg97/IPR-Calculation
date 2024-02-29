@@ -150,7 +150,7 @@ def main():
         fig, ax = plt.subplots()
         ax.scatter(data["Rate (m3/d)"], data["Pwf (bar)"], color='red', label='Pres and Test Data')
         ax.plot(Qmax_curve_fit, Pwf_range, color='blue', label='IPR (Fitted Curve)')
-        ax.plot(Qmax_curve_fit_new, Pwf_range, color='blue', linestyle='--', label='IPR Sensitivity')
+        ax.plot(Qmax_curve_fit_new, Pwf_range, color='green', linestyle='--', label='IPR Sensitivity')
         ax.set_xlabel('Rate (m$^3$/ d)')
         ax.set_ylabel('Pressure (bar)')
         ax.set_title('Pressure vs Rate')
