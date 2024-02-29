@@ -88,7 +88,8 @@ def main():
         data = pd.read_csv(uploaded_file)
 
         coefficients_df = calculate_coefficients(data, reservoir_type)
-        st.write("Data with IPR coefficients:\n", coefficients_df)
+        st.write("Data with IPR coefficients:")
+        st.write(coefficients_df.applymap(lambda x: f'{x:.2e}' if isinstance(x, (int, float)) else x))
 
         st.write("## IPR Curves")
         for well_name, well_data in data.groupby("Well"):
@@ -97,6 +98,7 @@ def main():
                 plot_IPR_curve(well_data, coefficients_df[coefficients_df['Well'] == well_name])
             elif reservoir_type == 'Oil':
                 plot_Vogel_curve(well_data, coefficients_df[coefficients_df['Well'] == well_name])
+
 
 def plot_IPR_curve(data, coefficients):
     well_name = data["Well"].iloc[0]
