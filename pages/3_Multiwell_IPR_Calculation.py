@@ -34,13 +34,13 @@ def error_function_vogel(params, Pwf, Q, Pws):
     return scaled_squared_errors
 
 # Calculate coefficients for each well
-def calculate_coefficients(data):
+def calculate_coefficients(data, reservoir_type):
     coefficients_list = []
 
     for index, well_data in data.groupby("Well"):
         Pws = well_data["Pres (bar)"].iloc[0]
 
-        if well_data['Reservoir Type'].iloc[0] == 'Gas':
+        if reservoir_type == 'Gas':
             initial_guess = [1.65e-2, 4.17e-1, Pws]  # Initial guess for optimization
             bounds = [(0, np.inf), (0, np.inf), (Pws - 1e-9, Pws + 1e-9)]  # Bounds for parameters
             result = minimize(error_function, initial_guess, args=(well_data,), bounds=bounds)
@@ -60,7 +60,7 @@ def calculate_coefficients(data):
                 'AOF (km3/d)': AOF
             })
 
-        elif well_data['Reservoir Type'].iloc[0] == 'Oil':
+        elif reservoir_type == 'Oil':
             initial_guess = [10]  # Initial guess for Qmax
             bounds = [(0, np.inf)]  # Define bounds for Qmax
             result = minimize(error_function_vogel, initial_guess, args=(well_data["BHP (bar)"], well_data["Rate (m3/d)"], Pws), bounds=bounds)
@@ -81,19 +81,21 @@ def calculate_coefficients(data):
 def main():
     st.title('Reservoir IPR Analysis')
 
+    reservoir_type = st.radio("Select Reservoir Type:", ('Gas', 'Oil'))
+
     uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
     if uploaded_file is not None:
         data = pd.read_csv(uploaded_file)
 
-        coefficients_df = calculate_coefficients(data)
+        coefficients_df = calculate_coefficients(data, reservoir_type)
         st.write("Data with IPR coefficients:\n", coefficients_df)
 
         st.write("## IPR Curves")
         for well_name, well_data in data.groupby("Well"):
             st.write(f"### Well {well_name}")
-            if well_data['Reservoir Type'].iloc[0] == 'Gas':
+            if reservoir_type == 'Gas':
                 plot_IPR_curve(well_data, coefficients_df[coefficients_df['Well'] == well_name])
-            elif well_data['Reservoir Type'].iloc[0] == 'Oil':
+            elif reservoir_type == 'Oil':
                 plot_Vogel_curve(well_data, coefficients_df[coefficients_df['Well'] == well_name])
 
 def plot_IPR_curve(data, coefficients):
@@ -142,4 +144,3 @@ def plot_Vogel_curve(data, coefficients):
 
 if __name__ == "__main__":
     main()
-
