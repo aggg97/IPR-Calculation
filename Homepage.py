@@ -20,7 +20,7 @@ with col2:
 
 with col3:
     st.markdown('<h3 style="color:black;">Multiwell IPR Calculation</h3>', unsafe_allow_html=True)
-    st.page_link("pages/2_Multiwell_IPR_Calculation.py", label="click here")
+    st.page_link("pages/3_Multiwell_IPR_Calculation.py", label="click here")
     
 
 st.markdown("add photos with what you can do")
