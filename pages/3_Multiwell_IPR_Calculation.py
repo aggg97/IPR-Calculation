@@ -85,7 +85,8 @@ def main():
 
 | Well | Pres (bar) | BHP (bar) | Rate (km3/d) |
 |------|------------|-----------|--------------|''')
-    
+
+    st.markdown(intro)
 
     reservoir_type = st.radio("Select Reservoir Type:", ('Gas', 'Oil'))
 
@@ -143,16 +144,16 @@ def plot_Vogel_curve(data, coefficients):
     Pwf_range = np.linspace(0, Pws, 500)
     Qmax_curve_fit = curve_IPR_Vogel(Pwf_range, Pws, Qmax)
 
-fig, ax = plt.subplots()
-ax.plot(Qmax_curve_fit, Pwf_range, color='black', label='IPR (Fitted Curve)')
-ax.scatter(data["Rate (m3/d)"], data["BHP (bar)"], color='magenta', label='Test Data')
-
-ax.set_xlabel('Rate (m$^3$/d)')
-ax.set_ylabel('Pressure (bar)')
-ax.set_title(f'Pressure vs Rate for Well {well_name}')
-ax.legend()
-ax.grid(True)
-ax.set_xlim(0, ax.get_xlim()[1])
+    fig, ax = plt.subplots()
+    ax.plot(Qmax_curve_fit, Pwf_range, color='black', label='IPR (Fitted Curve)')
+    ax.scatter(data["Rate (m3/d)"], data["BHP (bar)"], color='magenta', label='Test Data')
+    
+    ax.set_xlabel('Rate (m$^3$/d)')
+    ax.set_ylabel('Pressure (bar)')
+    ax.set_title(f'Pressure vs Rate for Well {well_name}')
+    ax.legend()
+    ax.grid(True)
+    ax.set_xlim(0, ax.get_xlim()[1])
 ax.set_ylim(0, ax.get_ylim()[1])
 
 st.pyplot(fig)
