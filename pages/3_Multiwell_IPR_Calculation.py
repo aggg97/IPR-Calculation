@@ -88,8 +88,14 @@ def main():
         data = pd.read_csv(uploaded_file)
 
         coefficients_df = calculate_coefficients(data, reservoir_type)
+        coefficients_df_formatted = coefficients_df.copy()  # Make a copy for formatting
+
+        # Format 'a' and 'b' columns in scientific notation
+        coefficients_df_formatted['a (bar2/(m3/d)2)'] = coefficients_df['a (bar2/(m3/d)2)'].apply(lambda x: f'{x:.2e}')
+        coefficients_df_formatted['b (bar2/m3/d)'] = coefficients_df['b (bar2/m3/d)'].apply(lambda x: f'{x:.2e}')
+
         st.write("Data with IPR coefficients:")
-        st.write(coefficients_df.applymap(lambda x: f'{x:.2e}' if isinstance(x, (int, float)) else x))
+        st.write(coefficients_df_formatted)
 
         st.write("## IPR Curves")
         for well_name, well_data in data.groupby("Well"):
