@@ -24,6 +24,5 @@ with col3:
     st.markdown('<h3 style="color:blue;">Multiwell IPR Calculation</h3>', unsafe_allow_html=True)
     st.markdown("By uploading a .csv file with test data for different wells, IPR calculation will be done with either Forcheimer's or Vogel's IPR cuadratic equation")
     st.page_link("pages/3_Multiwell_IPR_Calculation.py", label="click here")
-    
 
-st.markdown("add photos with what you can do")
+st.divider()
