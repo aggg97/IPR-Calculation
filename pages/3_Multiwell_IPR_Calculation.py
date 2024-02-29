@@ -105,7 +105,6 @@ def main():
             elif reservoir_type == 'Oil':
                 plot_Vogel_curve(well_data, coefficients_df[coefficients_df['Well'] == well_name])
 
-
 def plot_IPR_curve(data, coefficients):
     well_name = data["Well"].iloc[0]
     Pws = data["Pres (bar)"].iloc[0]
@@ -116,18 +115,19 @@ def plot_IPR_curve(data, coefficients):
     Q_range = np.linspace(0, AOF, 500)
     Pwf_fit = curve_IPR(Q_range, [a, b, Pws])
 
-    plt.plot(Q_range, Pwf_fit, color='blue', label=f'IPR Curve - Well {well_name}')
+    fig, ax = plt.subplots()
+    ax.plot(Q_range, Pwf_fit, color='blue', label=f'IPR Curve - Well {well_name}')
+    ax.scatter(data["Rate (km3/d)"], data["BHP (bar)"], color='magenta', label=f'Test Data - Well {well_name}')
 
-    plt.scatter(data["Rate (km3/d)"], data["BHP (bar)"], color='magenta', label=f'Test Data - Well {well_name}')
+    ax.set_xlabel('Rate (km$^3$/d)')
+    ax.set_ylabel('Pressure (bar)')
+    ax.set_title(f'Test Data and IPR Curves for Well {well_name}')
+    ax.legend()
+    ax.grid(True)
+    ax.set_xlim(0, None)
+    ax.set_ylim(0, None)
 
-    plt.xlabel('Rate (km$^3$/d)')
-    plt.ylabel('Pressure (bar)')
-    plt.title(f'Test Data and IPR Curves for Well {well_name}')
-    plt.legend()
-    plt.grid(True)
-    plt.xlim(0, None)
-    plt.ylim(0, None)
-    st.pyplot()
+    st.pyplot(fig)
 
 def plot_Vogel_curve(data, coefficients):
     well_name = data["Well"].iloc[0]
@@ -137,18 +137,17 @@ def plot_Vogel_curve(data, coefficients):
     Pwf_range = np.linspace(0, Pws, 500)
     Qmax_curve_fit = curve_IPR_Vogel(Pwf_range, Pws, Qmax)
 
-    plt.plot(Qmax_curve_fit, Pwf_range, color='black', label='IPR (Fitted Curve)')
+fig, ax = plt.subplots()
+ax.plot(Qmax_curve_fit, Pwf_range, color='black', label='IPR (Fitted Curve)')
+ax.scatter(data["Rate (m3/d)"], data["BHP (bar)"], color='magenta', label='Test Data')
 
-    plt.scatter(data["Rate (m3/d)"], data["BHP (bar)"], color='magenta', label='Test Data')
+ax.set_xlabel('Rate (m$^3$/d)')
+ax.set_ylabel('Pressure (bar)')
+ax.set_title(f'Pressure vs Rate for Well {well_name}')
+ax.legend()
+ax.grid(True)
+ax.set_xlim(0, ax.get_xlim()[1])
+ax.set_ylim(0, ax.get_ylim()[1])
 
-    plt.xlabel('Rate (m$^3$/d)')
-    plt.ylabel('Pressure (bar)')
-    plt.title(f'Pressure vs Rate for Well {well_name}')
-    plt.legend()
-    plt.grid(True)
-    plt.xlim(0, plt.xlim()[1])
-    plt.ylim(0, plt.ylim()[1])
-    st.pyplot()
+st.pyplot(fig)
 
-if __name__ == "__main__":
-    main()
