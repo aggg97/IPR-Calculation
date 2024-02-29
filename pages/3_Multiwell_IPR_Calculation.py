@@ -79,7 +79,15 @@ def calculate_coefficients(data, reservoir_type):
     return coefficients_df
 
 def main():
-    st.title('Reservoir IPR Analysis')
+    st.title('Multiwell IPR Calculation')
+
+    intro=('''In order to perform the curve fitting for several wells a .csv file needs to be loaded with the folliowing format. Note that all test data should be referenced to the same reservoir pressure.
+
+| Well | Pres (bar) | BHP (bar) | Rate (km3/d) for gas and Rate (m3/d) for oil |''')
+
+    st.markdown(intro)
+
+    st.divider()
 
     reservoir_type = st.radio("Select Reservoir Type:", ('Gas', 'Oil'))
 
